@@ -20,5 +20,5 @@ create table STUDENTINFOMANAGE (
 drop table contacts;
 
 insert into studentinfomanage(name, gender, phone, email, birth, major, studentid, avggradepoint)
-values('±è¿ìÇö', '³²¼º', '010-1111-2222', 'kwh@naver.com', '1996-12-04', 
-       'ÇàÁ¤ÇÐ°ú', '2015123456', '3.99');
+values('ê¹€ìš°í˜„', 'ë‚¨ì„±', '010-1111-2222', 'kwh@naver.com', '1996-12-04', 
+       'í–‰ì •í•™ê³¼', '2015123456', '3.99');

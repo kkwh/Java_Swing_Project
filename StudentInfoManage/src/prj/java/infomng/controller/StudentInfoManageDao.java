@@ -1,5 +1,6 @@
 package prj.java.infomng.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import prj.java.infomng.model.StudentInfoManage;
@@ -33,8 +34,9 @@ public interface StudentInfoManageDao {
 	 * 연락처 정보를 DB의 StudentInfoManage 테이블에 insert.
 	 * @param StudentInfoManage 저장할 정보를 가지고 있는 객체.
 	 * @return DB 테이블에 삽입된 행의 개수.
+	 * @throws SQLException 
 	 */
-	int create(StudentInfoManage info);
+	int create(StudentInfoManage info) throws SQLException, Exception;
 	
 	/**
 	 * primary key에 해당하는 학생 정보관리프로그램 정보를 수정(update).

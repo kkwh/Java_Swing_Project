@@ -75,12 +75,12 @@ public class StudentInfoManage implements Serializable{
 		this.email = email;
 	}
 
-	public String getBirht() {
+	public String getBirth() {
 		return birth;
 	}
 
-	public void setBirht(String birht) {
-		this.birth = birht;
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 
 	public String getMajor() {

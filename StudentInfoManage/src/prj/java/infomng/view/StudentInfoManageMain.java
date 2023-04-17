@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import prj.java.infomng.controller.JoinMemberDaoImpl;
 import prj.java.infomng.controller.StudentInfoManageDaoImpl;
 import prj.java.infomng.model.StudentInfoManage;
 
@@ -53,9 +55,12 @@ public class StudentInfoManageMain {
 	private JTextField textAvgGradePoint;
 	private JComboBox cbGender;
 	private JButton btnSave;
-	private JButton btnCancel;
+	private JButton btnList;
 	private JLabel lblAvgGradePoint;
 	private final StudentInfoManageDaoImpl dao = StudentInfoManageDaoImpl.getInstance();
+	private final JoinMemberDaoImpl daoJoin = JoinMemberDaoImpl.getInstance();
+	private JButton btnGuest;
+	private JButton btnSignUp;
 	/**
 	 * Launch the application.
 	 */
@@ -211,55 +216,54 @@ public class StudentInfoManageMain {
 		btnSave.setBounds(323, 453, 97, 50);
 		Mainpanel.add(btnSave);
 		
-		btnCancel = new JButton("목록");
-		btnCancel.addActionListener(new ActionListener() {
+		btnList = new JButton("목록");
+		btnList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				StudentInfoList.showStudentInfoFrame(frame, StudentInfoManageMain.this);
 				
 			}
 		});
-		btnCancel.setFont(new Font("Dialog", Font.PLAIN, 24));
-		btnCancel.setBounds(469, 453, 97, 50);
-		Mainpanel.add(btnCancel);
-		LoginPanel = new ImagePanel(new ImageIcon("C:/Users/82104/eclipse-workspace/StudentInfoManage/images/schedule2.png").getImage());
+		btnList.setFont(new Font("Dialog", Font.PLAIN, 24));
+		btnList.setBounds(469, 453, 97, 50);
+		Mainpanel.add(btnList);
+		LoginPanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/schedule2.png").getImage());
 		LoginPanel.setBounds(0, 0, 858, 575);
 		frame.getContentPane().add(LoginPanel);
 		LoginPanel.setLayout(null);
 		
 		lblLogin = new JLabel("Login");
 		lblLogin.setBounds(626, 10, 146, 55);
-		lblLogin.setFont(new Font("굴림", Font.BOLD, 32));
+		lblLogin.setFont(new Font("Dialog", Font.BOLD, 32));
 		LoginPanel.add(lblLogin);
 		
 		textId = new JTextField();
 		textId.setBounds(626, 75, 220, 34);
-		textId.setFont(new Font("굴림", Font.PLAIN, 24));
+		textId.setFont(new Font("Dialog", Font.PLAIN, 24));
 		LoginPanel.add(textId);
 		textId.setColumns(10);
 		
 		textPw = new JPasswordField();
 		textPw.setBounds(626, 119, 220, 34);
-		textPw.setFont(new Font("굴림", Font.PLAIN, 24));
+		textPw.setFont(new Font("Dialog", Font.PLAIN, 24));
 		LoginPanel.add(textPw);
 		
 		lblId = new JLabel("ID: ");
 		lblId.setBounds(560, 75, 69, 34);
-		lblId.setFont(new Font("굴림", Font.BOLD, 30));
+		lblId.setFont(new Font("Dialog", Font.BOLD, 30));
 		LoginPanel.add(lblId);
 		
 		lblPw = new JLabel("PW:");
 		lblPw.setBounds(545, 119, 69, 34);
-		lblPw.setFont(new Font("굴림", Font.BOLD, 30));
+		lblPw.setFont(new Font("Dialog", Font.BOLD, 30));
 		LoginPanel.add(lblPw);
 		
 		btnLogin = new JButton("Login");
-		btnLogin.setBounds(752, 163, 94, 34);
+		btnLogin.setBounds(744, 163, 102, 34);
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(textId.getText().equals("kwh") &&
-				   new String(textPw.getPassword()).equals("123")) {
+				if(daoJoin.loginCheck(textId.getText(), new String(textPw.getPassword()))) {
 					JOptionPane.showMessageDialog(frame, "로그인 성공");
 					LoginPanel.setVisible(false);
 					Mainpanel.setVisible(true);
@@ -267,28 +271,62 @@ public class StudentInfoManageMain {
 	
 			}
 		});
-		btnLogin.setFont(new Font("굴림", Font.PLAIN, 24));
+		btnLogin.setFont(new Font("Dialog", Font.PLAIN, 24));
 		LoginPanel.add(btnLogin);
+		
+		btnGuest = new JButton("Guest");
+		btnGuest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(frame, "Guest는 기능이 제한됩니다. Login 하시겠습니까?", "알림", 
+							  JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				
+				if (confirm == 0) {
+				LoginPanel.setVisible(false);
+				Mainpanel.setVisible(true);
+				}
+			}
+		});
+		btnGuest.setFont(new Font("Dialog", Font.PLAIN, 24));
+		btnGuest.setBounds(626, 163, 112, 34);
+		LoginPanel.add(btnGuest);
+		
+		btnSignUp = new JButton("Sign Up");
+		btnSignUp.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SignUpFrame.showSignUpFrame(frame);
+			}
+		});
+		btnSignUp.setFont(new Font("Dialog", Font.PLAIN, 24));
+		btnSignUp.setBounds(626, 207, 220, 34);
+		LoginPanel.add(btnSignUp);
 		frame.setBounds(100, 100, 874, 614);
 		frame.setResizable(false); // 크기 조절 X
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void saveNewStudentInfo() {
-		String name = textName.getText();
-		String birth = textBirth.getText();
-		String gender = cbGender.getSelectedItem().toString();
-		String phone = textPhone.getText();
-		String email = textEmail.getText();
-		String major = textMajor.getText();
-		String majorNum = textStudentId.getText();
-		String avg = textAvgGradePoint.getText();
+		try {
+			String name = textName.getText();
+			String birth = textBirth.getText();
+			String gender = cbGender.getSelectedItem().toString();
+			String phone = textPhone.getText();
+			String email = textEmail.getText();
+			String major = textMajor.getText();
+			String majorNum = textStudentId.getText();
+			String avg = textAvgGradePoint.getText();
+			
+			StudentInfoManage studentInfoManage = 
+					new StudentInfoManage(0, name, gender, phone, email, birth, major, majorNum, avg);
+			dao.create(studentInfoManage);
+						
+			JOptionPane.showMessageDialog(frame, "저장되었습니다.");
+			
+		}   catch (Exception e) {
+			JOptionPane.showMessageDialog(frame, "양식에 맞게 다시 입력해주세요.", "알림", JOptionPane.ERROR_MESSAGE);
+		}
 		
-		StudentInfoManage studentInfoManage = 
-				new StudentInfoManage(0, name, gender, phone, email, birth, major, majorNum, avg);
-		dao.create(studentInfoManage);
-		
-		JOptionPane.showMessageDialog(frame, "저장되었습니다.");
 		
 	}
 }

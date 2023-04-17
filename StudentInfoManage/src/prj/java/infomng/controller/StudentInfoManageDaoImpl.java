@@ -5,9 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import oracle.jdbc.OracleDriver;
 import prj.java.infomng.model.StudentInfoManage;
@@ -16,6 +19,8 @@ import static prj.java.infomng.oracle.OracleConnect.*;
 import static prj.java.infomng.model.StudentInfoManage.Entity.*;
 
 public class StudentInfoManageDaoImpl implements StudentInfoManageDao{
+	
+	
 	
 	// singleton
 	private static StudentInfoManageDaoImpl instance = null;
@@ -68,7 +73,7 @@ public class StudentInfoManageDaoImpl implements StudentInfoManageDao{
 				String gender = rs.getString(COL_GENDER);
 				String phone = rs.getString(COL_PHONE);
 				String email = rs.getString(COL_EMAIL);
-				String birth = rs.getString(COL_MAJOR);
+				String birth = rs.getString(COL_BIRTH);
 				String major = rs.getString(COL_MAJOR);
 				String studentId = rs.getString(COL_STUDENTID);
 				String avgGradePoint = rs.getString(COL_AVGGRADEPOINT);
@@ -115,7 +120,7 @@ public class StudentInfoManageDaoImpl implements StudentInfoManageDao{
 				String gender = rs.getString(COL_GENDER);
 				String phone = rs.getString(COL_PHONE);
 				String email = rs.getString(COL_EMAIL);
-				String birth = rs.getString(COL_MAJOR);
+				String birth = rs.getString(COL_BIRTH);
 				String major = rs.getString(COL_MAJOR);
 				String studentId = rs.getString(COL_STUDENTID);
 				String avgGradePoint = rs.getString(COL_AVGGRADEPOINT);
@@ -149,7 +154,7 @@ public class StudentInfoManageDaoImpl implements StudentInfoManageDao{
 					COL_BIRTH, COL_MAJOR, COL_STUDENTID, COL_AVGGRADEPOINT);
 	
 	@Override
-	public int create(StudentInfoManage info) {
+	public int create(StudentInfoManage info) throws SQLException {
 		int row = 0;
 		
 		Connection conn = null;
@@ -163,15 +168,16 @@ public class StudentInfoManageDaoImpl implements StudentInfoManageDao{
 			stmt.setString(2, info.getGender());
 			stmt.setString(3, info.getPhone());
 			stmt.setString(4, info.getEmail());
-			stmt.setString(5, info.getBirht());
+			stmt.setString(5, info.getBirth());
 			stmt.setString(6, info.getMajor());
 			stmt.setString(7, info.getstudentId());
 			stmt.setString(8, info.getAvgGradePoint());
 			
 			row = stmt.executeUpdate();
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLIntegrityConstraintViolationException e) {			
+			throw e;
+			
 		} finally {
 			try {
 				closeResources(conn, stmt);
@@ -197,13 +203,13 @@ public class StudentInfoManageDaoImpl implements StudentInfoManageDao{
 		
 		try {
 			conn = getConnection();
-			conn.prepareCall(SQL_UPDATE);
+			stmt = conn.prepareStatement(SQL_UPDATE);
 			
 			stmt.setString(1, info.getName());
 			stmt.setString(2, info.getGender());
 			stmt.setString(3, info.getPhone());
 			stmt.setString(4, info.getEmail());
-			stmt.setString(5, info.getBirht());
+			stmt.setString(5, info.getBirth());
 			stmt.setString(6, info.getMajor());
 			stmt.setString(7, info.getstudentId());
 			stmt.setString(8, info.getAvgGradePoint());
