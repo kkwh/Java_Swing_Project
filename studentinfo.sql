@@ -22,3 +22,8 @@ drop table contacts;
 insert into studentinfomanage(name, gender, phone, email, birth, major, studentid, avggradepoint)
 values('김우현', '남성', '010-1111-2222', 'kwh@naver.com', '1996-12-04', 
        '행정학과', '2015123456', '3.99');
+
+insert into studentinfomanage(name, gender, phone, email, birth, major, studentid, avggradepoint)
+values('홍길동', '남성', '010-1111-2222', 'kwh@nate.com', '1994-11-01', 
+       '경영학과', '2013122676', '3.21');
+commit;

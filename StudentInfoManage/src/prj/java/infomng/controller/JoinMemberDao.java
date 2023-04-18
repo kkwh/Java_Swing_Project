@@ -3,6 +3,7 @@ package prj.java.infomng.controller;
 import java.sql.SQLException;
 
 import prj.java.infomng.model.JoinMember;
+import prj.java.infomng.model.StudentInfoManage;
 
 public interface JoinMemberDao {
 	
@@ -27,6 +28,21 @@ public interface JoinMemberDao {
 	 * @return 로그인에 성공하면 true, 실패하면 false를 리턴.
 	 */
 	boolean loginCheck(String id, String pw);
+	
+	/**
+	 * 로그인할 id와 pw를 입력받아서 로그인 여부를 체크하고 cid를 반환.
+	 * @param id 로그인 시 입력할 id.
+	 * @param pw 로그인 시 입력할 pw.
+	 * @return 로그인에 성공하면 cid, 실패하면 -1을 리턴.
+	 */
+	int loginCheckNum(String id, String pw);
+	
+	/**
+	 * 회원의 cid를 입력받아서 해당  JoinMember 객체를 반환.
+	 * @param cid 회원 정보의 cid.
+	 * @return 입력받은 cid의 해당하는  JoinMember 객체를 리턴.
+	 */
+	 JoinMember haveMyInfo(int cid);
 	
 	
 	

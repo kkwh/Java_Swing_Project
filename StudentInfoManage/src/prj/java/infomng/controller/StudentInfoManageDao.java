@@ -28,7 +28,7 @@ public interface StudentInfoManageDao {
 	 * @param  검색할 단어.
 	 * @return 검색 결과 리스트.
 	 */
-	List<StudentInfoManage> read(String Searchedword);
+	List<StudentInfoManage> read(String Keyword);
 	
 	/**
 	 * 연락처 정보를 DB의 StudentInfoManage 테이블에 insert.

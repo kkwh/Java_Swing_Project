@@ -142,10 +142,69 @@ public class StudentInfoManageDaoImpl implements StudentInfoManageDao{
 		return studentInfoManage;
 	}
 	
+	private static final String SQL_SELECT_BY_KEYWORD = 
+			"select * from STUDENTINFOMANAGE"
+			+ " where lower(NAME) like lower(?) "
+			+ " or lower(GENDER) like lower(?) "
+			+ " or lower(PHONE) like lower(?) "
+			+ " or lower(EMAIL) like lower(?) "
+			+ " or lower(BIRTH) like lower(?) "
+			+ " or lower(MAJOR) like lower(?) "
+			+ " or lower(STUDENTID) like lower(?) "
+			+ " or lower(AVGGRADEPOINT) like lower(?) "
+			+ " order by CID";
+	
 	@Override
-	public List<StudentInfoManage> read(String Searchedword) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<StudentInfoManage> read(String Keyword) {
+		ArrayList<StudentInfoManage> list = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			
+			stmt = conn.prepareStatement(SQL_SELECT_BY_KEYWORD);
+			String key = "%" + Keyword + "%";
+			
+			stmt.setString(1, key);
+			stmt.setString(2, key);
+			stmt.setString(3, key);
+			stmt.setString(4, key);
+			stmt.setString(5, key);
+			stmt.setString(6, key);
+			stmt.setString(7, key);
+			stmt.setString(8, key);
+			
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				int cid = rs.getInt(COL_CID);
+				String name = rs.getString(COL_NAME);
+				String gender = rs.getString(COL_GENDER);
+				String phone = rs.getString(COL_PHONE);
+				String email = rs.getString(COL_EMAIL);
+				String birth = rs.getString(COL_BIRTH);
+				String major = rs.getString(COL_MAJOR);
+				String studentId = rs.getString(COL_STUDENTID);
+				String avgGradePoint = rs.getString(COL_AVGGRADEPOINT);
+				
+				StudentInfoManage info = new StudentInfoManage(cid, name, gender, phone, email, birth, major, studentId, avgGradePoint);
+				list.add(info);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				closeResources(conn, stmt, rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
 	}
 	
 	private static final String SQL_INSERT =

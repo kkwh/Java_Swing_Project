@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import prj.java.infomng.controller.JoinMemberDaoImpl;
+import prj.java.infomng.design.DesignedButton;
+import prj.java.infomng.design.ImagePanel;
 import prj.java.infomng.model.JoinMember;
 
 import javax.swing.JLabel;
@@ -15,11 +17,14 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
+import java.awt.Color;
 
 public class SignUpFrame extends JFrame {
 	
@@ -36,8 +41,6 @@ public class SignUpFrame extends JFrame {
 	private JLabel lblName;
 	private JTextField textName;
 	private JTextField textId;
-	private JTextField textPw;
-	private JTextField textCheckPw;
 	private JTextField textPhone;
 	private JButton btnCheckId;
 	private JTextField textEmail;
@@ -47,6 +50,10 @@ public class SignUpFrame extends JFrame {
 	private JLabel lblBirth;
 	private JLabel lblJoin;
 	private JButton btnCancel;
+	private JPasswordField pwField;
+	private JPasswordField pwCheckField;
+	private JLabel lblPwTrue;
+	private JLabel lblPwFalse;
 
 	/**
 	 * Launch the application.
@@ -89,7 +96,7 @@ public class SignUpFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		panel = new JPanel();
+		panel =  new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/signupbg2.png").getImage());
 		panel.setBackground(SystemColor.inactiveCaptionBorder);
 		panel.setBounds(0, 0, 468, 536);
 		contentPane.add(panel);
@@ -132,25 +139,13 @@ public class SignUpFrame extends JFrame {
 		textId.setBounds(187, 151, 269, 43);
 		panel.add(textId);
 		
-		textPw = new JTextField();
-		textPw.setFont(new Font("Dialog", Font.PLAIN, 18));
-		textPw.setColumns(10);
-		textPw.setBounds(187, 256, 269, 43);
-		panel.add(textPw);
-		
-		textCheckPw = new JTextField();
-		textCheckPw.setFont(new Font("Dialog", Font.PLAIN, 18));
-		textCheckPw.setColumns(10);
-		textCheckPw.setBounds(187, 309, 269, 43);
-		panel.add(textCheckPw);
-		
 		textPhone = new JTextField();
 		textPhone.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textPhone.setColumns(10);
 		textPhone.setBounds(187, 415, 269, 43);
 		panel.add(textPhone);
 		
-		btnCheckId = new JButton("아이디 중복확인");
+		btnCheckId = new DesignedButton("아이디 중복확인");
 		btnCheckId.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -162,9 +157,9 @@ public class SignUpFrame extends JFrame {
 				}
 				
 				if(idCheckBL) {
-					JOptionPane.showMessageDialog(SignUpFrame.this, "사용가능한 아이디입니다.");
+					JOptionPane.showMessageDialog(SignUpFrame.this, "사용가능한 아이디입니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(SignUpFrame.this, "이미 사용중이거나 탈퇴한 아이디입니다.");
+					JOptionPane.showMessageDialog(SignUpFrame.this, "이미 사용중이거나 탈퇴한 아이디입니다.", "알림", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -200,7 +195,31 @@ public class SignUpFrame extends JFrame {
 		lblJoin.setBounds(98, 10, 255, 43);
 		panel.add(lblJoin);
 		
-		btnJoin = new JButton("가입");
+		pwField = new JPasswordField();
+		pwField.setFont(new Font("Dialog", Font.PLAIN, 18));
+		pwField.setBounds(187, 256, 269, 43);
+		panel.add(pwField);
+		
+		pwCheckField = new JPasswordField();
+		pwCheckField.setFont(new Font("Dialog", Font.PLAIN, 18));
+		pwCheckField.setBounds(187, 309, 269, 43);
+		panel.add(pwCheckField);
+		
+		lblPwTrue = new JLabel("비밀번호 일치");
+		lblPwTrue.setForeground(Color.BLUE);
+		lblPwTrue.setFont(new Font("Dialog", Font.BOLD, 18));
+		lblPwTrue.setBounds(12, 204, 163, 42);
+		lblPwTrue.setVisible(false);
+		panel.add(lblPwTrue);
+		
+		lblPwFalse = new JLabel("비밀번호 불일치");
+		lblPwFalse.setForeground(Color.RED);
+		lblPwFalse.setFont(new Font("Dialog", Font.BOLD, 18));
+		lblPwFalse.setBounds(12, 204, 163, 42);
+		lblPwFalse.setVisible(false);
+		panel.add(lblPwFalse);
+		
+		btnJoin = new DesignedButton("가입");
 		btnJoin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -213,18 +232,32 @@ public class SignUpFrame extends JFrame {
 		contentPane.add(btnJoin);
 		btnJoin.setFont(new Font("Dialog", Font.BOLD, 24));
 		
-		btnCancel = new JButton("취소");
+		btnCancel = new DesignedButton("취소");
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnCancel.setBounds(260, 560, 97, 42);
 		contentPane.add(btnCancel);
 		btnCancel.setFont(new Font("Dialog", Font.BOLD, 24));
+		SignUpFrame.this.setResizable(false); // 크기 조절 X
 		
 	}
 
 	private void signUp() {
 		try {
+			
+			if(!(new String(pwField.getPassword()).equals(new String(pwCheckField.getPassword())))) {
+				JOptionPane.showMessageDialog(SignUpFrame.this, "비밀번호가 일치하지 않습니다.", "알림", JOptionPane.ERROR_MESSAGE);
+				lblPwFalse.setVisible(true);
+				return;
+			}
+			
 			String name = textName.getText();
 			String id = textId.getText();
-			String pw = textPw.getText();
+			String pw = new String(pwField.getPassword());
 			String birth = textBirth.getText();
 			String phone = textPhone.getText();
 			String email = textEmail.getText();
@@ -233,6 +266,8 @@ public class SignUpFrame extends JFrame {
 			if(idCheckBL) {
 				dao.memberCreate(member);
 				JOptionPane.showMessageDialog(SignUpFrame.this, "회원가입이 완료되었습니다.");
+				dispose();
+				
 			} else JOptionPane.showMessageDialog(SignUpFrame.this, "양식에 맞게 다시 입력해주세요.", "알림", JOptionPane.ERROR_MESSAGE);
 						
 		}   catch (Exception e) {

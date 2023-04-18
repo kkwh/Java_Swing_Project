@@ -12,6 +12,7 @@ import java.sql.Statement;
 
 import oracle.jdbc.OracleDriver;
 import prj.java.infomng.model.JoinMember;
+import prj.java.infomng.model.StudentInfoManage;
 
 public class JoinMemberDaoImpl implements JoinMemberDao{
 	
@@ -71,9 +72,7 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
-		
+		}	
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 			rs = stmt.executeQuery();
 			
 			if(rs.next()) {
-				if(id == rs.getString(COL_ID)) return false;
+				if(id.equals(rs.getString(COL_ID))) return false;
 			}		
 			
 		} catch (SQLException e) {
@@ -105,8 +104,7 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
+		}	
 		
 		return result;
 	}
@@ -129,7 +127,7 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 			rs = stmt.executeQuery();
 			
 			if(rs.next()) {
-				if(id == rs.getString(COL_ID) && pw == rs.getString(COL_PW)) result = true;
+				if(id.equals(rs.getString(COL_ID)) && pw.equals(rs.getString(COL_PW))) result = true;
 			}
 					
 		} catch (SQLException e) {			
@@ -141,10 +139,84 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 				e.printStackTrace();
 			}
 		}
-		
-		
-		
+			
 		return result;
+	}
+	
+	@Override
+	public int loginCheckNum(String id, String pw) { // cid를 반환
+		int result = -1;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = String.format("select * from %s where %s = ? and %s = ?", TBL_NAME, COL_ID, COL_PW );
+			stmt = conn.prepareStatement(sql);		
+			
+			stmt.setString(1, id);
+			stmt.setString(2, pw);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				if(id.equals(rs.getString(COL_ID)) && pw.equals(rs.getString(COL_PW))) result = rs.getInt(COL_CID);
+			}
+					
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			try {
+				closeResources(conn, stmt, rs);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+			
+		return result;
+	}
+	
+	@Override
+	public JoinMember haveMyInfo(int cid) {
+		 JoinMember info = null;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = String.format("select * from %s where %s = ?", TBL_NAME, COL_CID);
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cid);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				int cidId = rs.getInt(COL_CID);
+				String name = rs.getString(COL_NAME);
+				String id = rs.getString(COL_ID);
+				String pw = rs.getString(COL_PW);
+				String birth = rs.getString(COL_BIRTH);
+				String phone = rs.getString(COL_PHONE);
+				String email = rs.getString(COL_EMAIL);
+				
+				info = new JoinMember(cidId, name, id, pw, birth, phone, email);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				closeResources(conn, stmt, rs);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return info;
 	}
 	
 }

@@ -15,9 +15,13 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Color;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import prj.java.infomng.controller.StudentInfoManageDaoImpl;
+import prj.java.infomng.design.DesignedButton;
+import prj.java.infomng.design.ImagePanel;
 import prj.java.infomng.model.StudentInfoManage;
 
 import java.awt.event.ActionListener;
@@ -86,14 +90,14 @@ public class StudentInfoCreateFrame extends JFrame {
             y = app.getY();
         }
 		
-		setBounds(x, y, 858, 575);
+		setBounds(x, y, 874, 613);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Insertpanel = new JPanel();
+		Insertpanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/roundedLine.png").getImage());
 		Insertpanel.setBackground(SystemColor.activeCaption);
 		Insertpanel.setBounds(0, 0, 858, 575);
 		contentPane.add(Insertpanel);
@@ -102,55 +106,55 @@ public class StudentInfoCreateFrame extends JFrame {
 		lblStudentMng = new JLabel("학생 정보관리프로그램");
 		lblStudentMng.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudentMng.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblStudentMng.setBounds(266, 23, 342, 39);
+		lblStudentMng.setBounds(276, 10, 342, 39);
 		Insertpanel.add(lblStudentMng);
 		
 		lblName = new JLabel("이름");
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblName.setBounds(70, 96, 153, 50);
+		lblName.setBounds(55, 96, 153, 50);
 		Insertpanel.add(lblName);
 		
 		lblGender = new JLabel("성별");
 		lblGender.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGender.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblGender.setBounds(70, 178, 153, 50);
+		lblGender.setBounds(55, 178, 153, 50);
 		Insertpanel.add(lblGender);
 		
 		lblPhone = new JLabel("전화번호");
 		lblPhone.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPhone.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblPhone.setBounds(70, 258, 153, 50);
+		lblPhone.setBounds(55, 258, 153, 50);
 		Insertpanel.add(lblPhone);
 		
 		lblEmail = new JLabel("이메일");
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEmail.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblEmail.setBounds(70, 342, 153, 50);
+		lblEmail.setBounds(55, 342, 153, 50);
 		Insertpanel.add(lblEmail);
 		
 		lblBirth = new JLabel("생년월일");
 		lblBirth.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBirth.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblBirth.setBounds(471, 96, 153, 50);
+		lblBirth.setBounds(432, 96, 153, 50);
 		Insertpanel.add(lblBirth);
 		
 		lblMajor = new JLabel("학과");
 		lblMajor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMajor.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblMajor.setBounds(471, 178, 153, 50);
+		lblMajor.setBounds(432, 178, 153, 50);
 		Insertpanel.add(lblMajor);
 		
 		lblStudentId = new JLabel("학번");
 		lblStudentId.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudentId.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblStudentId.setBounds(471, 258, 153, 50);
+		lblStudentId.setBounds(432, 258, 153, 50);
 		Insertpanel.add(lblStudentId);
 		
 		lblAvgGradePoint = new JLabel("평균학점");
 		lblAvgGradePoint.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAvgGradePoint.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblAvgGradePoint.setBounds(471, 342, 153, 50);
+		lblAvgGradePoint.setBounds(432, 342, 153, 50);
 		Insertpanel.add(lblAvgGradePoint);
 		
 		textName = new JTextField();
@@ -174,25 +178,25 @@ public class StudentInfoCreateFrame extends JFrame {
 		textBirth = new JTextField();
 		textBirth.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textBirth.setColumns(10);
-		textBirth.setBounds(620, 96, 204, 50);
+		textBirth.setBounds(600, 96, 204, 50);
 		Insertpanel.add(textBirth);
 		
 		textMajor = new JTextField();
 		textMajor.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textMajor.setColumns(10);
-		textMajor.setBounds(620, 178, 204, 50);
+		textMajor.setBounds(600, 178, 204, 50);
 		Insertpanel.add(textMajor);
 		
 		textStudentId = new JTextField();
 		textStudentId.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textStudentId.setColumns(10);
-		textStudentId.setBounds(620, 258, 204, 50);
+		textStudentId.setBounds(600, 258, 204, 50);
 		Insertpanel.add(textStudentId);
 		
 		textAvgGradePoint = new JTextField();
 		textAvgGradePoint.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textAvgGradePoint.setColumns(10);
-		textAvgGradePoint.setBounds(620, 342, 204, 50);
+		textAvgGradePoint.setBounds(600, 342, 204, 50);
 		Insertpanel.add(textAvgGradePoint);
 		
 		cbGender = new JComboBox(new String[] {"남성", "여성"});
@@ -202,7 +206,7 @@ public class StudentInfoCreateFrame extends JFrame {
 		cbGender.setBounds(213, 178, 207, 50);
 		Insertpanel.add(cbGender);
 		
-		btnSave = new JButton("저장");
+		btnSave = new DesignedButton("저장");
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -213,7 +217,7 @@ public class StudentInfoCreateFrame extends JFrame {
 		btnSave.setBounds(323, 453, 97, 50);
 		Insertpanel.add(btnSave);
 		
-		btnCancel = new JButton("닫기");
+		btnCancel = new DesignedButton("닫기");
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -223,6 +227,7 @@ public class StudentInfoCreateFrame extends JFrame {
 		btnCancel.setFont(new Font("Dialog", Font.PLAIN, 24));
 		btnCancel.setBounds(469, 453, 97, 50);
 		Insertpanel.add(btnCancel);
+		StudentInfoCreateFrame.this.setResizable(false); // 크기 조절 X
 		
 		
 		
