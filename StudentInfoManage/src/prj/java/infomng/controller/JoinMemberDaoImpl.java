@@ -246,5 +246,36 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 		
 		
 	}
+	@Override
+	public void updateMyInfo(int cid, JoinMember member) {
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = String.format("update %s set %s = ?, %s = ?, %s = ?, %s = ? where %s = ?",
+										TBL_NAME, COL_NAME, COL_BIRTH, COL_PHONE, COL_EMAIL, COL_CID);
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, member.getName());
+			stmt.setString(2, member.getBirth());
+			stmt.setString(3, member.getPhone());
+			stmt.setString(4, member.getEmail());
+			stmt.setInt(5, cid);
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				closeResources(conn, stmt);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
 	
 }

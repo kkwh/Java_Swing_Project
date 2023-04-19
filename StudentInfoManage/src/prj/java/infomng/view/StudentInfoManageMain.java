@@ -226,6 +226,7 @@ public class StudentInfoManageMain {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
+				StudentInfoManageMain.main(null);
 
 			}
 		});

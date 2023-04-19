@@ -50,6 +50,14 @@ public interface JoinMemberDao {
 	  */
 	 void withdrawMember(int cid);
 	
+	 /**
+	  * 회원의 cid와 JoinMember 객체를 입력받아서 해당 회원의 정보를 Update.
+	  * @param cid 회원 정보의 cid.
+	  * @param member 회원 정보가 들어있는 JoinMember 객체.
+	  */
+	 void updateMyInfo(int cid, JoinMember member);
+	 
+	 
 	
 	
 	

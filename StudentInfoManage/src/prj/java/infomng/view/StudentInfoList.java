@@ -124,7 +124,7 @@ public class StudentInfoList extends JFrame {
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
-		table.setBackground(new Color(171, 196, 170));
+		table.setBackground(new Color(243, 222, 186));
 		model = new DefaultTableModel(null, COLUMN_NAMES); 
 		table.setModel(model);
 		table.getTableHeader().setFont(new Font("고도체", Font.BOLD, 18));

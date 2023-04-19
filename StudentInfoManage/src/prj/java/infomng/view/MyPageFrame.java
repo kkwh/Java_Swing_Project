@@ -12,6 +12,7 @@ import prj.java.infomng.controller.JoinMemberDaoImpl;
 import prj.java.infomng.design.DesignedButton;
 import prj.java.infomng.design.DesignedButton2;
 import prj.java.infomng.design.DesignedButton3;
+import prj.java.infomng.design.DesignedButton4;
 import prj.java.infomng.design.ImagePanel;
 import prj.java.infomng.model.JoinMember;
 
@@ -44,7 +45,7 @@ public class MyPageFrame extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textMyName;
 	private JTextField textMyId;
-	private JTextField textMybirth;
+	private JTextField textMyBirth;
 	private JTextField textMyPhone;
 	private JTextField textMyEmail;
 	private JButton btnNameUpdate;
@@ -53,8 +54,13 @@ public class MyPageFrame extends JFrame {
 	private JButton btnLogout;
 	private JButton btnWithdraw;
 	private JButton btnClose;
-	private JButton btnEamilUpdate;
+	private JButton btnEmailUpdate;
 	private JButton btnPhoneUpdate;
+	private JoinMember member = null;
+	private JButton btnNameComplete;
+	private JButton btnBirthComplete;
+	private JButton btnPhoneComplete;
+	private JButton btnEmailComplete;
 
 	/**
 	 * Launch the application.
@@ -78,7 +84,7 @@ public class MyPageFrame extends JFrame {
 	public MyPageFrame(Component parent, int cid) {
 		this.parent = parent;
 		this.cid = cid;
-		
+		this.member = daoJoin.haveMyInfo(cid);
 		initialize();
 		showMyInfo();
 		
@@ -89,7 +95,7 @@ public class MyPageFrame extends JFrame {
 		textMyName.setText(member.getName());
 		textMyId.setText(member.getId());
 		passwordField.setText(member.getPw());
-		textMybirth.setText(member.getBirth());
+		textMyBirth.setText(member.getBirth());
 		textMyPhone.setText(member.getPhone());
 		textMyEmail.setText(member.getEmail());
 		
@@ -151,7 +157,7 @@ public class MyPageFrame extends JFrame {
 		lblNewLabel_7 = new JLabel("마이페이지");
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_7.setFont(new Font("Dialog", Font.PLAIN, 32));
-		lblNewLabel_7.setBounds(101, 10, 239, 70);
+		lblNewLabel_7.setBounds(106, 7, 239, 70);
 		panel.add(lblNewLabel_7);
 		
 		passwordField = new JPasswordField();
@@ -165,7 +171,7 @@ public class MyPageFrame extends JFrame {
 		textMyName.setBounds(137, 100, 220, 43);
 		panel.add(textMyName);
 		textMyName.setColumns(10);
-		textMyName.setEditable(false);
+		textMyName.setEditable(false); // 텍스트에 입력 불가
 		
 		textMyId = new JTextField();
 		textMyId.setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -174,12 +180,12 @@ public class MyPageFrame extends JFrame {
 		panel.add(textMyId);
 		textMyId.setEditable(false);
 		
-		textMybirth = new JTextField();
-		textMybirth.setFont(new Font("Dialog", Font.PLAIN, 18));
-		textMybirth.setColumns(10);
-		textMybirth.setBounds(137, 280, 220, 43);
-		panel.add(textMybirth);
-		textMybirth.setEditable(false);
+		textMyBirth = new JTextField();
+		textMyBirth.setFont(new Font("Dialog", Font.PLAIN, 18));
+		textMyBirth.setColumns(10);
+		textMyBirth.setBounds(137, 280, 220, 43);
+		panel.add(textMyBirth);
+		textMyBirth.setEditable(false);
 		
 		textMyPhone = new JTextField();
 		textMyPhone.setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -235,6 +241,13 @@ public class MyPageFrame extends JFrame {
 		btnNameUpdate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "이름을 수정하시겠습니까??", "수정 알림",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION) {
+					textMyName.setEditable(true);
+					btnNameUpdate.setVisible(false);
+					btnNameComplete.setVisible(true);
+				}								
 			}
 		});
 		btnNameUpdate.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -242,24 +255,148 @@ public class MyPageFrame extends JFrame {
 		panel.add(btnNameUpdate);
 		
 		btnPwUpdate = new DesignedButton3("수정");
+		btnPwUpdate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UpdateMyPw.showUpdateMyPw(MyPageFrame.this, cid);
+			}
+		});
 		btnPwUpdate.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnPwUpdate.setBounds(369, 220, 81, 43);
 		panel.add(btnPwUpdate);
 		
 		btnBirthUpdate = new DesignedButton3("수정");
+		btnBirthUpdate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "생년월일을 수정하시겠습니까??", "수정 알림",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if(confirm == JOptionPane.YES_OPTION) {
+							textMyBirth.setEditable(true);
+							btnBirthUpdate.setVisible(false);
+							btnBirthComplete.setVisible(true);
+						}								
+			}
+		});
 		btnBirthUpdate.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnBirthUpdate.setBounds(369, 280, 81, 43);
 		panel.add(btnBirthUpdate);
 		
 		btnPhoneUpdate = new DesignedButton3("수정");
+		btnPhoneUpdate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "연락처를 수정하시겠습니까??", "수정 알림",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if(confirm == JOptionPane.YES_OPTION) {
+							textMyPhone.setEditable(true);
+							btnPhoneUpdate.setVisible(false);
+							btnPhoneComplete.setVisible(true);
+						}								
+			}
+		});
 		btnPhoneUpdate.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnPhoneUpdate.setBounds(369, 340, 81, 43);
 		panel.add(btnPhoneUpdate);
 		
-		btnEamilUpdate = new DesignedButton3("수정");
-		btnEamilUpdate.setFont(new Font("Dialog", Font.BOLD, 18));
-		btnEamilUpdate.setBounds(369, 400, 81, 43);
-		panel.add(btnEamilUpdate);
+		btnEmailUpdate = new DesignedButton3("수정");
+		btnEmailUpdate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "이메일 주소를 수정하시겠습니까??", "수정 알림",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if(confirm == JOptionPane.YES_OPTION) {
+							textMyEmail.setEditable(true);
+							btnEmailUpdate.setVisible(false);
+							btnEmailComplete.setVisible(true);
+						}								
+			}
+		});
+		btnEmailUpdate.setFont(new Font("Dialog", Font.BOLD, 18));
+		btnEmailUpdate.setBounds(369, 400, 81, 43);
+		panel.add(btnEmailUpdate);
+		
+		btnNameComplete = new DesignedButton4("완료");
+		btnNameComplete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "해당 내용으로 수정하시겠습니까?", "수정 알림",
+							  								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION) {
+					member.setName(textMyName.getText());
+					daoJoin.updateMyInfo(cid, member);
+					JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
+					textMyName.setEditable(false);
+					btnNameComplete.setVisible(false);
+					btnNameUpdate.setVisible(true);
+				} else return;					
+			}
+		});
+		btnNameComplete.setFont(new Font("Dialog", Font.BOLD, 18));
+		btnNameComplete.setBounds(369, 100, 81, 43);
+		btnNameComplete.setVisible(false);
+		panel.add(btnNameComplete);
+		
+		btnBirthComplete = new DesignedButton4("완료");
+		btnBirthComplete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "해당 내용으로 수정하시겠습니까?", "수정 알림",
+															JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION) {
+					member.setBirth(textMyBirth.getText());
+					daoJoin.updateMyInfo(cid, member);
+					JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
+					textMyBirth.setEditable(false);
+					btnBirthComplete.setVisible(false);
+					btnBirthUpdate.setVisible(true);
+				} else return;					
+			}
+		});
+		btnBirthComplete.setText("완료");
+		btnBirthComplete.setFont(new Font("Dialog", Font.BOLD, 18));
+		btnBirthComplete.setBounds(369, 280, 81, 43);
+		panel.add(btnBirthComplete);
+		
+		btnPhoneComplete = new DesignedButton4("완료");
+		btnPhoneComplete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "해당 내용으로 수정하시겠습니까?", "수정 알림",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION) {
+					member.setPhone(textMyPhone.getText());
+					daoJoin.updateMyInfo(cid, member);
+					JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
+					textMyPhone.setEditable(false);
+					btnPhoneComplete.setVisible(false);
+					btnPhoneUpdate.setVisible(true);
+				} else return;					
+			}
+		});
+		btnPhoneComplete.setFont(new Font("Dialog", Font.BOLD, 18));
+		btnPhoneComplete.setBounds(369, 340, 81, 43);
+		panel.add(btnPhoneComplete);
+		
+		btnEmailComplete = new DesignedButton4("완료");
+		btnEmailComplete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "해당 내용으로 수정하시겠습니까?", "수정 알림",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION) {
+					member.setEmail(textMyEmail.getText());
+					daoJoin.updateMyInfo(cid, member);
+					JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
+					textMyEmail.setEditable(false);
+					btnEmailComplete.setVisible(false);
+					btnEmailUpdate.setVisible(true);
+				} else return;				
+			}
+		});
+		btnEmailComplete.setFont(new Font("Dialog", Font.BOLD, 18));
+		btnEmailComplete.setBounds(369, 400, 81, 43);
+		panel.add(btnEmailComplete);
 		MyPageFrame.this.setResizable(false);
 		
 	}
