@@ -219,4 +219,32 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 		return info;
 	}
 	
+	@Override
+	public void withdrawMember(int cid) {
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = String.format("delete from %s where %s = ?", TBL_NAME, COL_CID);
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cid);
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				closeResources(conn, stmt);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
+	
 }

@@ -38,11 +38,17 @@ public interface JoinMemberDao {
 	int loginCheckNum(String id, String pw);
 	
 	/**
-	 * 회원의 cid를 입력받아서 해당  JoinMember 객체를 반환.
+	 * 회원의 cid를 입력받아서 해당 JoinMember 객체를 반환.
 	 * @param cid 회원 정보의 cid.
 	 * @return 입력받은 cid의 해당하는  JoinMember 객체를 리턴.
 	 */
 	 JoinMember haveMyInfo(int cid);
+	 
+	 /**
+	  * 회원의 cid를 입력받아서 해당 회원의 정보를 db에서 삭제.
+	  * @param cid 회원 정보의 cid.
+	  */
+	 void withdrawMember(int cid);
 	
 	
 	

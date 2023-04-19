@@ -28,7 +28,7 @@ import java.awt.Color;
 
 public class SignUpFrame extends JFrame {
 	
-	JoinMemberDaoImpl dao = JoinMemberDaoImpl.getInstance();
+	private JoinMemberDaoImpl dao = JoinMemberDaoImpl.getInstance();
 	
 	private boolean idCheckBL;
 	private JPanel contentPane;

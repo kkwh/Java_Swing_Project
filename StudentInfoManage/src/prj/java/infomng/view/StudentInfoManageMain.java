@@ -254,7 +254,7 @@ public class StudentInfoManageMain {
 					JOptionPane.showMessageDialog(frame, "Guest는 내 정보를 조회할 수 없습니다.");
 					return;
 				}
-				MyPageFrame.showMyPageFrame(frame);
+				MyPageFrame.showMyPageFrame(frame, loginNum);
 			}
 		});
 		btnMyPage.setFont(new Font("Dialog", Font.PLAIN, 24));

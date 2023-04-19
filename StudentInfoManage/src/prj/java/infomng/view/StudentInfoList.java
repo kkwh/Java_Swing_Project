@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.Icon;
 
 public class StudentInfoList extends JFrame {
 
@@ -179,7 +180,7 @@ public class StudentInfoList extends JFrame {
 		btnSearch.setFont(new Font("Dialog", Font.BOLD, 18));
 		panelBtn.add(btnSearch);
 		
-		btnRefresh = new JButton(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/rf.png"));
+		btnRefresh = new DesignedButton("목록 전체 보기");
 		btnRefresh.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
