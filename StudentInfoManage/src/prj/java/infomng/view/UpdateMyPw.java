@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class UpdateMyPw extends JFrame {
 
@@ -37,11 +38,15 @@ public class UpdateMyPw extends JFrame {
 	private JoinMember member = null;
 	private JoinMemberDaoImpl daoJoin = JoinMemberDaoImpl.getInstance();
 	private JLabel lblNewLabel;
-	private JTextField textNowPw;
-	private JTextField textNewPw;
-	private JTextField textNewPwCheck;
 	private JButton btnConfirm;
 	private JButton btnClose;
+	private JPasswordField textNowPw;
+	private JPasswordField textNewPw;
+	private JPasswordField textNewPwCheck;
+	private JTextField textNowPwNotice;
+	private JTextField textNewPwNotice;
+	private JTextField textNewPwCheckNotice;
+	private JTextArea textNotice;
 	
 	/**
 	 * Launch the application.
@@ -93,7 +98,53 @@ public class UpdateMyPw extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JTextArea textNotice = new JTextArea(String.format("안전한 비밀번호로 %s님의 정보를 보호하세요.", member.getName()));
+		textNowPwNotice = new JTextField();
+		textNowPwNotice.setText("현재 비밀번호");
+		textNowPwNotice.setFont(new Font("Dialog", Font.PLAIN, 18));
+		textNowPwNotice.setBounds(12, 201, 290, 43);
+		textNowPwNotice.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	textNowPwNotice.setText("");
+                textNowPwNotice.setVisible(false);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+    
+            }
+        });
+		
+		panel.add(textNowPwNotice);
+		textNowPwNotice.setColumns(10);
+		
+		textNewPwCheckNotice = new JTextField();
+		textNewPwCheckNotice.setText("새 비밀번호 확인");
+		textNewPwCheckNotice.setFont(new Font("Dialog", Font.PLAIN, 18));
+		textNewPwCheckNotice.setColumns(10);
+		textNewPwCheckNotice.setBounds(12, 297, 290, 43);
+		panel.add(textNewPwCheckNotice);
+		
+		textNewPwNotice = new JTextField();
+		textNewPwNotice.setText("새 비밀번호");
+		textNewPwNotice.setFont(new Font("Dialog", Font.PLAIN, 18));
+		textNewPwNotice.setColumns(10);
+		textNewPwNotice.setBounds(12, 254, 290, 43);
+		panel.add(textNewPwNotice);
+		textNowPwNotice.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	textNowPwNotice.setText("");
+                textNowPwNotice.setVisible(false);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+    
+            }
+        });
+		
+		textNotice = new JTextArea(String.format("안전한 비밀번호로 %s님의 정보를 보호하세요.", member.getName()));
 		textNotice.setFont(new Font("고도체", Font.PLAIN, 18));
 		textNotice.setBounds(12, 72, 290, 82);
 		textNotice.setLineWrap(true);
@@ -106,74 +157,57 @@ public class UpdateMyPw extends JFrame {
 		lblNewLabel.setBounds(12, 25, 290, 38);
 		panel.add(lblNewLabel);
 		
-		textNowPw = new JTextField();
-		textNowPw.setText("현재 비밀번호");
-		textNowPw.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	                textNowPw.setText("");
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	    
-	            }
-	        });
-		 
-		textNowPw.setFont(new Font("Dialog", Font.PLAIN, 18));
-		textNowPw.setBounds(12, 201, 290, 43);
-		panel.add(textNowPw);
-		textNowPw.setColumns(10);
-		
-		textNewPw = new JTextField();
-		textNewPw.setText("새 비밀번호");
-		textNewPw.addFocusListener(new FocusListener() { //TextField 안에 클릭하면 지워지는 글씨
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	                textNewPw.setText("");
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	                // do nothing
-	            }
-	        });
-		textNewPw.setFont(new Font("Dialog", Font.PLAIN, 18));
-		textNewPw.setColumns(10);
-		textNewPw.setBounds(12, 254, 290, 43);
-		panel.add(textNewPw);
-		
-		textNewPwCheck = new JTextField();
-		textNewPwCheck.setText("새 비밀번호 확인");
-		textNewPwCheck.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	                textNewPwCheck.setText("");
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	                // do nothing
-	            }
-	        });
-		textNewPwCheck.setFont(new Font("Dialog", Font.PLAIN, 18));
-		textNewPwCheck.setColumns(10);
-		textNewPwCheck.setBounds(12, 297, 290, 43);
-		panel.add(textNewPwCheck);
-		
 		btnConfirm = new DesignedButton("확인");
+		btnConfirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(textNowPw.equals(member.getPw())) {
+					
+				}
+			}
+		});
 		btnConfirm.setFont(new Font("Dialog", Font.PLAIN, 24));
 		btnConfirm.setBounds(12, 398, 290, 43);
 		panel.add(btnConfirm);
 		
 		btnClose = new DesignedButton5("취소");
 		btnClose.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
 		btnClose.setFont(new Font("Dialog", Font.PLAIN, 24));
 		btnClose.setBounds(12, 448, 290, 43);
 		panel.add(btnClose);
+		
+		textNowPw = new JPasswordField();
+		textNowPw.setToolTipText("");
+		textNowPw.setFont(new Font("Dialog", Font.PLAIN, 18));
+		textNowPw.setBounds(12, 201, 290, 43);
+		textNowPw.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+                textNowPw.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+    
+            }
+        });
+
+		panel.add(textNowPw);
+		
+		textNewPw = new JPasswordField();
+		textNewPw.setFont(new Font("Dialog", Font.PLAIN, 18));
+		textNewPw.setBounds(12, 254, 290, 43);
+		panel.add(textNewPw);
+		
+		textNewPwCheck = new JPasswordField();
+		textNewPwCheck.setBounds(12, 297, 290, 43);
+		panel.add(textNewPwCheck);
+		UpdateMyPw.this.setResizable(false); // 크기 조절 X
 		
 	}
 }

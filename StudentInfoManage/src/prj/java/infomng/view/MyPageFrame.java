@@ -397,30 +397,32 @@ public class MyPageFrame extends JFrame {
 		btnEmailComplete.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnEmailComplete.setBounds(369, 400, 81, 43);
 		panel.add(btnEmailComplete);
-		MyPageFrame.this.setResizable(false);
+		MyPageFrame.this.setResizable(false); // 크기 조절 X
 		
 	}
 
 	private void withdrawMember() {
-		int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "정말로 계정을 탈퇴하시겠습니까?", "회원탈퇴",
-				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if(confirm == JOptionPane.YES_OPTION) {
-			String deletePw = JOptionPane.showInputDialog(MyPageFrame.this, "비밀번호를 입력해주세요.",
-					"회원탈퇴", JOptionPane.INFORMATION_MESSAGE);
-			if(deletePw.equals(daoJoin.haveMyInfo(cid).getPw())) {
-				daoJoin.withdrawMember(cid);
-				JOptionPane.showMessageDialog(MyPageFrame.this, "회원탈퇴가 완료되었습니다.", "회원탈퇴 완료", JOptionPane.INFORMATION_MESSAGE);
-				dispose();
-				((Window) parent).dispose();
-				StudentInfoManageMain.main(null);
-			} else if(deletePw == null) {
-				return;
-			} else {
-				JOptionPane.showMessageDialog(MyPageFrame.this, "비밀번호가 일치하지 않습니다.", "회원탈퇴 실패", JOptionPane.INFORMATION_MESSAGE);
-				return;
+		try {
+			int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "정말로 계정을 탈퇴하시겠습니까?", "회원탈퇴",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if(confirm == JOptionPane.YES_OPTION) {
+				String deletePw = JOptionPane.showInputDialog(MyPageFrame.this, "비밀번호를 입력해주세요.",
+						"회원탈퇴", JOptionPane.INFORMATION_MESSAGE);
+				if(deletePw.equals(daoJoin.haveMyInfo(cid).getPw())) {
+					daoJoin.withdrawMember(cid);
+					JOptionPane.showMessageDialog(MyPageFrame.this, "회원탈퇴가 완료되었습니다.", "회원탈퇴 완료", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+					((Window) parent).dispose();
+					StudentInfoManageMain.main(null);
+				} else if(deletePw == null) {
+					return;
+				} else {
+					JOptionPane.showMessageDialog(MyPageFrame.this, "비밀번호가 일치하지 않습니다.", "회원탈퇴 실패", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
 			}
+		} catch (NullPointerException e) {
+			return;
 		}
-
-
 	}
 }
