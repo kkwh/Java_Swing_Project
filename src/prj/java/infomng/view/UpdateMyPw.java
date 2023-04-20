@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -180,9 +182,7 @@ public class UpdateMyPw extends JFrame {
 		btnConfirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(textNowPw.equals(member.getPw())) {
-					
-				}
+				updatePwOrShowMessage();
 			}
 		});
 		btnConfirm.setFont(new Font("Dialog", Font.PLAIN, 24));
@@ -292,6 +292,19 @@ public class UpdateMyPw extends JFrame {
 		panel.add(lblPwCheckFalse);
 		
 		UpdateMyPw.this.setResizable(false); // 크기 조절 X
+		
+	}
+
+	private void updatePwOrShowMessage() {
+		if(member.getPw().equals(new String(textNowPw.getPassword()))) {
+			if(new String(textNewPw.getPassword()).equals(new String(textNewPwCheck.getPassword()))) {
+				if(!(new String(textNowPw.getPassword()).equals(new String(textNewPw.getPassword())))) {
+					daoJoin.updateMyPw(cid, new String(textNewPw.getPassword()));
+					JOptionPane.showMessageDialog(UpdateMyPw.this, "비밀번호 변경이 완료되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				} else JOptionPane.showMessageDialog(UpdateMyPw.this, "변경하시려는 비밀번호가 현재 비밀번호와 같습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+			} else JOptionPane.showMessageDialog(UpdateMyPw.this, "변경하시려는 비밀번호가 일치하지 않습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+		} else JOptionPane.showMessageDialog(UpdateMyPw.this, "현재 비밀번호가 일치하지 않습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 }

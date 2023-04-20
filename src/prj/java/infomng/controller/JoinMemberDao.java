@@ -57,6 +57,13 @@ public interface JoinMemberDao {
 	  */
 	 void updateMyInfo(int cid, JoinMember member);
 	 
+	 /**
+	  * 회원의 cid와 변경하고자 하는 password를 입력받아서 해당 회원의 비밀번호를 Update.
+	  * @param cid 회원 정보의 cid.
+	  * @param password 회원이 변경하고자 하는 비밀번호.
+	  */
+	 void updateMyPw(int cid, String password);
+	 
 	 
 	
 	
