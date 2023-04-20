@@ -14,6 +14,7 @@ import prj.java.infomng.design.DesignedButton2;
 import prj.java.infomng.design.DesignedButton3;
 import prj.java.infomng.design.DesignedButton4;
 import prj.java.infomng.design.ImagePanel;
+import prj.java.infomng.design.JTextFieldLimit;
 import prj.java.infomng.model.JoinMember;
 
 import javax.swing.JLabel;
@@ -184,6 +185,7 @@ public class MyPageFrame extends JFrame {
 		textMyBirth.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textMyBirth.setColumns(10);
 		textMyBirth.setBounds(137, 280, 220, 43);
+		textMyBirth.setDocument(new JTextFieldLimit(8));
 		panel.add(textMyBirth);
 		textMyBirth.setEditable(false);
 		
@@ -191,6 +193,7 @@ public class MyPageFrame extends JFrame {
 		textMyPhone.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textMyPhone.setColumns(10);
 		textMyPhone.setBounds(137, 340, 220, 43);
+		textMyPhone.setDocument(new JTextFieldLimit(13));
 		panel.add(textMyPhone);
 		textMyPhone.setEditable(false);
 		

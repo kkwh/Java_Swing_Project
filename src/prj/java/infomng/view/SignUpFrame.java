@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import prj.java.infomng.controller.JoinMemberDaoImpl;
 import prj.java.infomng.design.DesignedButton;
 import prj.java.infomng.design.ImagePanel;
+import prj.java.infomng.design.JTextFieldLimit;
 import prj.java.infomng.model.JoinMember;
 
 import javax.swing.JLabel;
@@ -142,9 +143,26 @@ public class SignUpFrame extends JFrame {
 		panel.add(textId);
 		
 		textPhone = new JTextField();
+		textPhone.setText("예시) 010-1234-5678");
 		textPhone.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textPhone.setColumns(10);
 		textPhone.setBounds(187, 415, 269, 43);
+		textPhone.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textPhone.setText("");
+                textPhone.setDocument(new JTextFieldLimit(13)); // 입력가능한 글자수를 제한
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textPhone.getText().equals("")) {            		
+            		textPhone.setDocument(new JTextFieldLimit(18));
+            		textPhone.setText("예시) 010-1234-5678");
+            	}
+            }
+        });
 		panel.add(textPhone);
 		
 		btnCheckId = new DesignedButton("아이디 중복확인");
@@ -170,9 +188,24 @@ public class SignUpFrame extends JFrame {
 		panel.add(btnCheckId);
 		
 		textEmail = new JTextField();
+		textEmail.setText("예시) abc@naver.com");
 		textEmail.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textEmail.setColumns(10);
 		textEmail.setBounds(187, 468, 269, 43);
+		textEmail.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textEmail.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textEmail.getText().equals("")) {            		
+            		textEmail.setText("예시) abc@naver.com");
+            	}
+            }
+        });
 		panel.add(textEmail);
 		
 		lblCheckPw = new JLabel("비밀번호 확인");
@@ -186,9 +219,26 @@ public class SignUpFrame extends JFrame {
 		panel.add(lblBirth);
 		
 		textBirth = new JTextField();
+		textBirth.setText("예시) 19961225");
 		textBirth.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textBirth.setColumns(10);
 		textBirth.setBounds(187, 362, 269, 43);
+		textBirth.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textBirth.setText("");
+                textBirth.setDocument(new JTextFieldLimit(8)); // 입력가능한 글자수를 제한
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textBirth.getText().equals("")) {            		
+            		textBirth.setDocument(new JTextFieldLimit(12));
+            		textBirth.setText("예시) 19961225");
+            	}
+            }
+        });
 		panel.add(textBirth);
 		
 		lblJoin = new JLabel("회원가입");

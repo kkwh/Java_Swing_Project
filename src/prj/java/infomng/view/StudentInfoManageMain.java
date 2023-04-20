@@ -99,6 +99,8 @@ public class StudentInfoManageMain {
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("학생 정보관리프로그램");
 		
+		System.out.println();
+		
 		Mainpanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/roundedLine.png").getImage());
 		Mainpanel.setBackground(SystemColor.activeCaption);
 		Mainpanel.setForeground(new Color(255, 255, 255));

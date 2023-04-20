@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import prj.java.infomng.design.DesignedButton;
 import prj.java.infomng.design.ImagePanel;
+import prj.java.infomng.design.JTextFieldLimit;
 import prj.java.infomng.model.JoinMember;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ActionEvent;
 
 public class SearchMyPwForInfo extends JFrame {
@@ -112,15 +115,47 @@ public class SearchMyPwForInfo extends JFrame {
 		panel.add(lblEmail);
 		
 		textPhone = new JTextField();
+		textPhone.setText("예시) 010-1234-5678");
 		textPhone.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textPhone.setBounds(155, 155, 305, 43);
+		textPhone.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textPhone.setText("");
+                textPhone.setDocument(new JTextFieldLimit(13)); // 입력가능한 글자수를 제한
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textPhone.getText().equals("")) {            		
+            		textPhone.setDocument(new JTextFieldLimit(18));
+            		textPhone.setText("예시) 010-1234-5678");
+            	}
+            }
+        });
 		panel.add(textPhone);
 		textPhone.setColumns(10);
 		
 		textEmail = new JTextField();
+		textEmail.setText("예시) abc@naver.com");
 		textEmail.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textEmail.setColumns(10);
 		textEmail.setBounds(155, 208, 305, 43);
+		textEmail.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textEmail.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textEmail.getText().equals("")) {            		
+            		textEmail.setText("예시) abc@naver.com");
+            	}
+            }
+        });
 		panel.add(textEmail);
 		
 		btnSearch = new DesignedButton("찾기");
