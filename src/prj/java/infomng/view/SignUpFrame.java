@@ -193,8 +193,8 @@ public class SignUpFrame extends JFrame {
 		
 		lblJoin = new JLabel("회원가입");
 		lblJoin.setHorizontalAlignment(SwingConstants.CENTER);
-		lblJoin.setFont(new Font("Dialog", Font.BOLD, 32));
-		lblJoin.setBounds(98, 10, 255, 43);
+		lblJoin.setFont(new Font("Dialog", Font.BOLD, 36));
+		lblJoin.setBounds(105, 20, 255, 43);
 		panel.add(lblJoin);
 		
 		pwField = new JPasswordField();

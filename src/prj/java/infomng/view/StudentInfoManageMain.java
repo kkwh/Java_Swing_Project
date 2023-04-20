@@ -67,6 +67,7 @@ public class StudentInfoManageMain {
 	private DesignedButton2 btnMyPage;
 	private int loginNum = -1; // cid, guest는 -1.
 	private DesignedButton btnForgotPw;
+	private JButton btnInfoHistory;
 	/**
 	 * Launch the application.
 	 */
@@ -339,10 +340,27 @@ public class StudentInfoManageMain {
 		LoginPanel.add(btnSignUp);
 		
 		btnForgotPw = new DesignedButton("Sign Up");
+		btnForgotPw.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SearchMyPwInputId.showSearchMyPwInputId(frame);
+			}
+		});
 		btnForgotPw.setText("Forgot password?");
 		btnForgotPw.setFont(new Font("Dialog", Font.PLAIN, 18));
 		btnForgotPw.setBounds(626, 251, 220, 34);
 		LoginPanel.add(btnForgotPw);
+		
+		btnInfoHistory = new DesignedButton("학생 정보관리프로그램");
+		btnInfoHistory.setText("학생 정보관리프로그램V0.1");
+		btnInfoHistory.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnInfoHistory.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnInfoHistory.setBounds(616, 531, 230, 34);
+		LoginPanel.add(btnInfoHistory);
 		frame.setBounds(100, 100, 874, 614);
 		frame.setResizable(false); // 크기 조절 X
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

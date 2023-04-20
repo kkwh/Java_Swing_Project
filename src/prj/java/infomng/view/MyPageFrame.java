@@ -157,7 +157,7 @@ public class MyPageFrame extends JFrame {
 		lblNewLabel_7 = new JLabel("마이페이지");
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_7.setFont(new Font("Dialog", Font.PLAIN, 32));
-		lblNewLabel_7.setBounds(106, 7, 239, 70);
+		lblNewLabel_7.setBounds(106, 10, 239, 70);
 		panel.add(lblNewLabel_7);
 		
 		passwordField = new JPasswordField();

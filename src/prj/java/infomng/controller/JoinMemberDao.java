@@ -40,7 +40,7 @@ public interface JoinMemberDao {
 	/**
 	 * 회원의 cid를 입력받아서 해당 JoinMember 객체를 반환.
 	 * @param cid 회원 정보의 cid.
-	 * @return 입력받은 cid의 해당하는  JoinMember 객체를 리턴.
+	 * @return 입력받은 cid에 해당하는 JoinMember 객체를 리턴.
 	 */
 	 JoinMember haveMyInfo(int cid);
 	 
@@ -63,6 +63,14 @@ public interface JoinMemberDao {
 	  * @param password 회원이 변경하고자 하는 비밀번호.
 	  */
 	 void updateMyPw(int cid, String password);
+	 
+	 /**
+	  * 회원의 id를 입력받아서 해당 JoinMember 객체를 반환.
+	  * @param id 회원 정보의 id.
+	  * @return 입력받은 id가 포함되어 있는 JoinMember 객체를 리턴.
+	  */
+	 JoinMember idInputHaveInfo(String id);
+	 
 	 
 	 
 	
