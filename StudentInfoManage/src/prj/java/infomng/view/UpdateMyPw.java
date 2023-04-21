@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -28,6 +30,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Color;
 
 public class UpdateMyPw extends JFrame {
 
@@ -47,6 +50,8 @@ public class UpdateMyPw extends JFrame {
 	private JTextField textNewPwNotice;
 	private JTextField textNewPwCheckNotice;
 	private JTextArea textNotice;
+	private JLabel lblPwCheckTrue;
+	private JLabel lblPwCheckFalse;
 	
 	/**
 	 * Launch the application.
@@ -77,7 +82,7 @@ public class UpdateMyPw extends JFrame {
 
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setTitle("개인정보 수정");
+		setTitle("비밀번호 변경");
 		
 		int x = 100;
         int y = 100;
@@ -101,28 +106,43 @@ public class UpdateMyPw extends JFrame {
 		textNowPwNotice = new JTextField();
 		textNowPwNotice.setText("현재 비밀번호");
 		textNowPwNotice.setFont(new Font("Dialog", Font.PLAIN, 18));
+		textNowPwNotice.setColumns(10);
 		textNowPwNotice.setBounds(12, 201, 290, 43);
+		textNowPwNotice.setVisible(true);
 		textNowPwNotice.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
             @Override
             public void focusGained(FocusEvent e) {
-            	textNowPwNotice.setText("");
                 textNowPwNotice.setVisible(false);
+                textNowPw.setVisible(true);
+                textNowPw.requestFocus(); // 커서 자동 활성화
+                
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-    
+            	
             }
-        });
-		
+        });		
 		panel.add(textNowPwNotice);
-		textNowPwNotice.setColumns(10);
 		
 		textNewPwCheckNotice = new JTextField();
 		textNewPwCheckNotice.setText("새 비밀번호 확인");
 		textNewPwCheckNotice.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textNewPwCheckNotice.setColumns(10);
 		textNewPwCheckNotice.setBounds(12, 297, 290, 43);
+		textNewPwCheckNotice.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+                textNewPwCheckNotice.setVisible(false);
+                textNewPwCheck.setVisible(true);
+                textNewPwCheck.requestFocus(); // 커서 자동 활성화
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	
+            }
+        });
 		panel.add(textNewPwCheckNotice);
 		
 		textNewPwNotice = new JTextField();
@@ -130,19 +150,20 @@ public class UpdateMyPw extends JFrame {
 		textNewPwNotice.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textNewPwNotice.setColumns(10);
 		textNewPwNotice.setBounds(12, 254, 290, 43);
-		panel.add(textNewPwNotice);
-		textNowPwNotice.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+		textNewPwNotice.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
             @Override
             public void focusGained(FocusEvent e) {
-            	textNowPwNotice.setText("");
-                textNowPwNotice.setVisible(false);
+                textNewPwNotice.setVisible(false);
+                textNewPw.setVisible(true);
+                textNewPw.requestFocus(); // 커서 자동 활성화
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-    
+            	
             }
         });
+		panel.add(textNewPwNotice);
 		
 		textNotice = new JTextArea(String.format("안전한 비밀번호로 %s님의 정보를 보호하세요.", member.getName()));
 		textNotice.setFont(new Font("고도체", Font.PLAIN, 18));
@@ -161,9 +182,7 @@ public class UpdateMyPw extends JFrame {
 		btnConfirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(textNowPw.equals(member.getPw())) {
-					
-				}
+				updatePwOrShowMessage();
 			}
 		});
 		btnConfirm.setFont(new Font("Dialog", Font.PLAIN, 24));
@@ -185,29 +204,107 @@ public class UpdateMyPw extends JFrame {
 		textNowPw.setToolTipText("");
 		textNowPw.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textNowPw.setBounds(12, 201, 290, 43);
+		textNowPw.setVisible(false); // 처음에 비밀번호 텍스트는 안보이게
 		textNowPw.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
             @Override
             public void focusGained(FocusEvent e) {
-                textNowPw.setText("");
+                
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-    
+            	if(new String(textNowPw.getPassword()).equals("")) {
+            		textNowPw.setVisible(false);
+            		textNowPwNotice.setVisible(true);
+            	}
             }
         });
-
 		panel.add(textNowPw);
 		
 		textNewPw = new JPasswordField();
 		textNewPw.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textNewPw.setBounds(12, 254, 290, 43);
+		textNewPw.setVisible(false);
+		textNewPw.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+                
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(new String(textNewPw.getPassword()).equals("")) {
+            		textNewPw.setVisible(false);
+            		textNewPwNotice.setVisible(true);
+            	}
+            	
+            	if(new String(textNewPw.getPassword()).equals(new String(textNewPwCheck.getPassword()))) {
+            		lblPwCheckFalse.setVisible(false);
+            		lblPwCheckTrue.setVisible(true);
+            	} else {
+            		lblPwCheckTrue.setVisible(false);
+					lblPwCheckFalse.setVisible(true);
+				}
+            }
+        });
 		panel.add(textNewPw);
 		
 		textNewPwCheck = new JPasswordField();
+		textNewPwCheck.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textNewPwCheck.setBounds(12, 297, 290, 43);
+		textNewPwCheck.setVisible(false);
+		textNewPwCheck.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+                
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(new String(textNewPwCheck.getPassword()).equals("")) {
+            		textNewPwCheck.setVisible(false);
+            		textNewPwCheckNotice.setVisible(true);
+            	}
+            	
+            	if(new String(textNewPw.getPassword()).equals(new String(textNewPwCheck.getPassword()))) {
+            		lblPwCheckFalse.setVisible(false);
+            		lblPwCheckTrue.setVisible(true);
+            	} else {
+            		lblPwCheckTrue.setVisible(false);
+					lblPwCheckFalse.setVisible(true);
+				}
+            }
+        });
 		panel.add(textNewPwCheck);
+		
+		lblPwCheckTrue = new JLabel("비밀번호 일치");
+		lblPwCheckTrue.setForeground(Color.BLUE);
+		lblPwCheckTrue.setFont(new Font("Dialog", Font.BOLD, 18));
+		lblPwCheckTrue.setBounds(12, 350, 290, 43);
+		lblPwCheckTrue.setVisible(false);
+		panel.add(lblPwCheckTrue);
+		
+		lblPwCheckFalse = new JLabel("비밀번호 불일치");
+		lblPwCheckFalse.setForeground(Color.RED);
+		lblPwCheckFalse.setFont(new Font("Dialog", Font.BOLD, 18));
+		lblPwCheckFalse.setBounds(12, 350, 290, 43);
+		lblPwCheckFalse.setVisible(false);
+		panel.add(lblPwCheckFalse);
+		
 		UpdateMyPw.this.setResizable(false); // 크기 조절 X
+		
+	}
+
+	private void updatePwOrShowMessage() {
+		if(member.getPw().equals(new String(textNowPw.getPassword()))) {
+			if(new String(textNewPw.getPassword()).equals(new String(textNewPwCheck.getPassword()))) {
+				if(!(new String(textNowPw.getPassword()).equals(new String(textNewPw.getPassword())))) {
+					daoJoin.updateMyPw(cid, new String(textNewPw.getPassword()));
+					JOptionPane.showMessageDialog(UpdateMyPw.this, "비밀번호 변경이 완료되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				} else JOptionPane.showMessageDialog(UpdateMyPw.this, "변경하시려는 비밀번호가 현재 비밀번호와 같습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+			} else JOptionPane.showMessageDialog(UpdateMyPw.this, "변경하시려는 비밀번호가 일치하지 않습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+		} else JOptionPane.showMessageDialog(UpdateMyPw.this, "현재 비밀번호가 일치하지 않습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 }

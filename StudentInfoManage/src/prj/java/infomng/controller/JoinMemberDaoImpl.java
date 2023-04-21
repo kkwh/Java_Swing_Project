@@ -239,7 +239,7 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 		} finally {
 			try {
 				closeResources(conn, stmt);
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -271,11 +271,79 @@ public class JoinMemberDaoImpl implements JoinMemberDao{
 		} finally {
 			try {
 				closeResources(conn, stmt);
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
 	}
+	@Override
+	public void updateMyPw(int cid, String password) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = String.format("update %s set %s = ? where %s = ?", TBL_NAME, COL_PW, COL_CID);
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, password);
+			stmt.setInt(2, cid);
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				closeResources(conn, stmt);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	@Override
+	public JoinMember idInputHaveInfo(String id) {
+			JoinMember info = null;
+			
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			
+			try {
+				conn = getConnection();
+				
+				String sql = String.format("SELECT * FROM %s WHERE %s = ?", TBL_NAME, COL_ID);
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, id);
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					int cid = rs.getInt(COL_CID);
+					String name = rs.getString(COL_NAME);
+					String myId = rs.getString(COL_ID);
+					String pw = rs.getString(COL_PW);
+					String birth = rs.getString(COL_BIRTH);
+					String phone = rs.getString(COL_PHONE);
+					String email = rs.getString(COL_EMAIL);
+					
+					info = new JoinMember(cid, name, myId, pw, birth, phone, email);
+				}		
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					closeResources(conn, stmt, rs);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}	
+			
+			return info;
+		}
+	}
 	
-}
+

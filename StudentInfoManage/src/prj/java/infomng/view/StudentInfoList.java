@@ -16,9 +16,11 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
 import java.awt.Font;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -45,15 +47,16 @@ public class StudentInfoList extends JFrame {
 	private JButton btnDelete;
 	private JButton btnSearch;
 	private JButton btnRefresh;
+	private int cid;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void showStudentInfoFrame(Component parent, StudentInfoManageMain app) {
+	public static void showStudentInfoFrame(Component parent, StudentInfoManageMain app, int cid) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StudentInfoList frame = new StudentInfoList(parent, app);
+					StudentInfoList frame = new StudentInfoList(parent, app, cid);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,9 +68,10 @@ public class StudentInfoList extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StudentInfoList(Component parent, StudentInfoManageMain app) {
+	public StudentInfoList(Component parent, StudentInfoManageMain app, int cid) {
 		this.parent = parent;
 		this.app = app;
+		this.cid = cid;
 		initialize();
 		loadStudentInfo();
 		
@@ -102,6 +106,13 @@ public class StudentInfoList extends JFrame {
             model.addRow(row);
         }
 	}
+	
+	private int guestCheck() {
+		if(cid == -1) {
+			JOptionPane.showMessageDialog(StudentInfoList.this, "Guest는 사용할 수 없는 기능입니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+		}
+		return cid;
+	}
 
 	public void initialize() {
 		setTitle("학생 정보관리프로그램");
@@ -127,6 +138,46 @@ public class StudentInfoList extends JFrame {
 		table.setBackground(new Color(243, 222, 186));
 		model = new DefaultTableModel(null, COLUMN_NAMES); 
 		table.setModel(model);
+		
+//		 TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);  // 테이블 정렬, 정렬 후 crud 논리적 오류
+//	        sorter.setComparator(0, new Comparator<String>() {
+//	            public int compare(String o1, String o2) {
+//	                return o1.compareTo(o2);
+//	            }
+//	        });
+//	        sorter.setComparator(1, new Comparator<String>() {
+//	            public int compare(String o1, String o2) {
+//	                return o1.compareTo(o2);
+//	            }
+//	        });
+//	        sorter.setComparator(3, new Comparator<String>() {
+//	            public int compare(String o1, String o2) {
+//	                return o1.compareTo(o2);
+//	            }
+//	        });
+//	        sorter.setComparator(4, new Comparator<String>() {
+//	            public int compare(String o1, String o2) {
+//	                return o1.compareTo(o2);
+//	            }
+//	        });
+//	        sorter.setComparator(5, new Comparator<String>() {
+//	            public int compare(String o1, String o2) {
+//	                return o1.compareTo(o2);
+//	            }
+//	        });
+//	        sorter.setComparator(6, new Comparator<String>() {
+//	            public int compare(String o1, String o2) {
+//	                return o1.compareTo(o2);
+//	            }
+//	        });
+//	        sorter.setComparator(7, new Comparator<String>() {
+//	            public int compare(String o1, String o2) {
+//	                return o1.compareTo(o2);
+//	            }
+//	        });
+//	       
+//	        table.setRowSorter(sorter);
+		
 		table.getTableHeader().setFont(new Font("고도체", Font.BOLD, 18));
 		table.getTableHeader().setOpaque(false);
 		table.getTableHeader().setBackground(new Color(171, 196, 170));
@@ -144,6 +195,7 @@ public class StudentInfoList extends JFrame {
 		btnInsert.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(guestCheck() == -1) return;
 				StudentInfoCreateFrame.showStudentInfoCreateFrame(parent, StudentInfoList.this);
 			}
 		});
@@ -154,6 +206,7 @@ public class StudentInfoList extends JFrame {
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(guestCheck() == -1) return;
 				updateStudentInfo();
 			}
 		});
@@ -164,6 +217,7 @@ public class StudentInfoList extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(guestCheck() == -1) return;
 				deleteStudentInfo();
 			}
 		});

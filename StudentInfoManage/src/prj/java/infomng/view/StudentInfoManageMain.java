@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -27,6 +29,7 @@ import prj.java.infomng.model.StudentInfoManage;
 import prj.java.infomng.design.*;
 
 import java.awt.SystemColor;
+import java.awt.event.FocusAdapter;
 
 public class StudentInfoManageMain {
 
@@ -52,7 +55,6 @@ public class StudentInfoManageMain {
 	private JTextField textPhone;
 	private JTextField textEmail;
 	private JTextField textBirth;
-	private JTextField textMajor;
 	private JTextField textStudentId;
 	private JTextField textAvgGradePoint;
 	private JComboBox cbGender;
@@ -66,6 +68,11 @@ public class StudentInfoManageMain {
 	private DesignedButton2 btnList;
 	private DesignedButton2 btnMyPage;
 	private int loginNum = -1; // cid, guest는 -1.
+	private DesignedButton btnForgotPw;
+	private JButton btnInfoHistory;
+	private JComboBox cbMajor;
+	private JButton btnDirectlyInput;
+	private DesignedButton6 btnSearchPoint;
 	/**
 	 * Launch the application.
 	 */
@@ -97,6 +104,8 @@ public class StudentInfoManageMain {
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("학생 정보관리프로그램");
 		
+		System.out.println();
+		
 		Mainpanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/roundedLine.png").getImage());
 		Mainpanel.setBackground(SystemColor.activeCaption);
 		Mainpanel.setForeground(new Color(255, 255, 255));
@@ -108,7 +117,7 @@ public class StudentInfoManageMain {
 		lblStudentMng = new JLabel("학생 정보관리프로그램");
 		lblStudentMng.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudentMng.setFont(new Font("Dialog", Font.BOLD, 28));
-		lblStudentMng.setBounds(276, 10, 342, 39);
+		lblStudentMng.setBounds(265, 10, 342, 39);
 		Mainpanel.add(lblStudentMng);
 		
 		lblName = new JLabel("이름");
@@ -123,7 +132,7 @@ public class StudentInfoManageMain {
 		lblGender.setBounds(55, 178, 153, 50);
 		Mainpanel.add(lblGender);
 		
-		lblPhone = new JLabel("전화번호");
+		lblPhone = new JLabel("연락처");
 		lblPhone.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPhone.setFont(new Font("Dialog", Font.BOLD, 28));
 		lblPhone.setBounds(55, 258, 153, 50);
@@ -166,39 +175,115 @@ public class StudentInfoManageMain {
 		textName.setColumns(10);
 		
 		textPhone = new JTextField();
+		textPhone.setText("양식) 010-1234-5678");
 		textPhone.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textPhone.setColumns(10);
 		textPhone.setBounds(216, 258, 204, 50);
+		textPhone.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textPhone.setText("");
+                textPhone.setDocument(new JTextFieldLimit(13)); // 입력가능한 글자수를 제한
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textPhone.getText().equals("")) {            		
+            		textPhone.setDocument(new JTextFieldLimit(18));
+            		textPhone.setText("양식) 010-1234-5678");
+            	}
+            }
+        });
 		Mainpanel.add(textPhone);
 		
 		textEmail = new JTextField();
-		textEmail.setFont(new Font("Dialog", Font.PLAIN, 20));
+		textEmail.setText("양식) abc@naver.com");
+		textEmail.setFont(new Font("Dialog", Font.PLAIN, 18));
 		textEmail.setColumns(10);
 		textEmail.setBounds(216, 342, 204, 50);
+		textEmail.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {            	
+                textEmail.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textEmail.getText().equals("")) {            		
+            		textEmail.setText("양식) abc@naver.com");
+            	}
+            }
+        });
 		Mainpanel.add(textEmail);
 		
 		textBirth = new JTextField();
+		textBirth.setText("양식) 19961225");
 		textBirth.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textBirth.setColumns(10);
 		textBirth.setBounds(600, 96, 204, 50);
+		textBirth.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textBirth.setText("");
+                textBirth.setDocument(new JTextFieldLimit(8)); // 입력가능한 글자수를 제한
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textBirth.getText().equals("")) {            		
+            		textBirth.setDocument(new JTextFieldLimit(12));
+            		textBirth.setText("양식) 19961225");
+            	}
+            }
+        });
 		Mainpanel.add(textBirth);
 		
-		textMajor = new JTextField();
-		textMajor.setFont(new Font("Dialog", Font.PLAIN, 20));
-		textMajor.setColumns(10);
-		textMajor.setBounds(600, 178, 204, 50);
-		Mainpanel.add(textMajor);
-		
 		textStudentId = new JTextField();
+		textStudentId.setText("양식) 2023510010");
 		textStudentId.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textStudentId.setColumns(10);
 		textStudentId.setBounds(600, 258, 204, 50);
+		textStudentId.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textStudentId.setText("");
+                textStudentId.setDocument(new JTextFieldLimit(10)); // 입력가능한 글자수를 제한
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textStudentId.getText().equals("")) {            		
+            		textStudentId.setDocument(new JTextFieldLimit(16));
+            		textStudentId.setText("양식) 2023510010");
+            	}
+            }
+        });
 		Mainpanel.add(textStudentId);
 		
 		textAvgGradePoint = new JTextField();
+		textAvgGradePoint.setText("양식) 4.50");
 		textAvgGradePoint.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textAvgGradePoint.setColumns(10);
 		textAvgGradePoint.setBounds(600, 342, 204, 50);
+		textAvgGradePoint.addFocusListener(new FocusListener() {  //TextField 안에 클릭하면 지워지는 글씨
+            @Override
+            public void focusGained(FocusEvent e) {
+            	
+                textAvgGradePoint.setText("");
+                textAvgGradePoint.setDocument(new JTextFieldLimit(4)); // 입력가능한 글자수를 제한
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	if(textAvgGradePoint.getText().equals("")) {            		
+            		textAvgGradePoint.setDocument(new JTextFieldLimit(12));
+            		textAvgGradePoint.setText("양식) 4.50");
+            	}
+            }
+        });
 		Mainpanel.add(textAvgGradePoint);
 		
 		cbGender = new JComboBox(new String[] {"남성", "여성"});
@@ -206,6 +291,7 @@ public class StudentInfoManageMain {
 		cbGender.setBackground(Color.WHITE);
 		cbGender.setFont(new Font("Dialog", Font.PLAIN, 20));
 		cbGender.setBounds(213, 178, 207, 50);
+		cbGender.setEditable(false);
 		Mainpanel.add(cbGender);
 		
 		btnSave = new DesignedButton("저장");
@@ -213,12 +299,13 @@ public class StudentInfoManageMain {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(guestCheck() == -1) return;
 				saveNewStudentInfo();
 				
 				
 			}
 		});
-		btnSave.setBounds(323, 453, 97, 50);
+		btnSave.setBounds(323, 485, 97, 50);
 		Mainpanel.add(btnSave);
 		
 		btnClose = new DesignedButton("닫기");
@@ -231,14 +318,14 @@ public class StudentInfoManageMain {
 			}
 		});
 		btnClose.setFont(new Font("Dialog", Font.PLAIN, 24));
-		btnClose.setBounds(469, 453, 97, 50);
+		btnClose.setBounds(468, 485, 97, 50);
 		Mainpanel.add(btnClose);
 		
 		btnList = new DesignedButton2("목록");
 		btnList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				StudentInfoList.showStudentInfoFrame(frame, StudentInfoManageMain.this);
+				StudentInfoList.showStudentInfoFrame(frame, StudentInfoManageMain.this, loginNum);
 				
 			}
 		});
@@ -261,6 +348,39 @@ public class StudentInfoManageMain {
 		btnMyPage.setFont(new Font("Dialog", Font.PLAIN, 24));
 		btnMyPage.setBounds(55, 10, 97, 50);
 		Mainpanel.add(btnMyPage);
+		
+		cbMajor = new JComboBox(new String[] {"건축공학과", "경영학과", "경제학과", "교육공학과", "국어국문학과", "국제무역학과", "글로벌비즈니스학과"
+				, "기계공학과", "문화콘텐츠학과", "물리학과", "미디어커뮤니케이션학과", "사학과", "산업공학과", "산업디자인학과", "생물공학과", "수학과", "수학교육과", "영어교육과", "음악교육과", "응용통계학과"
+				, "의상디자인학과", "일어교육과", "전기공학과", "전자공학과", "정치외교학과", "중어중문학과", "지리학과", "철학과", "체육교육과", "컴퓨터공학과", "행정학과", "화학과"
+				, "화학공학과", "환경공학과"});
+		cbMajor.setFont(new Font("Dialog", Font.PLAIN, 20));
+		cbMajor.setBackground(Color.WHITE);
+		cbMajor.setBounds(597, 178, 207, 50);
+		cbMajor.setEditable(false);
+		Mainpanel.add(cbMajor);
+		
+//		btnDirectlyInput = new DesignedButton6("직접입력");
+//		btnDirectlyInput.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				textAvgGradePoint.setEditable(true);
+//			}
+//		});
+//		btnDirectlyInput.setFont(new Font("Dialog", Font.PLAIN, 18));
+//		btnDirectlyInput.setBounds(600, 400, 97, 50);
+//		Mainpanel.add(btnDirectlyInput);
+		
+//		btnSearchPoint = new DesignedButton6("찾기");
+//		btnSearchPoint.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				CalAvgGradePoint.showCalAvgGradePoint(frame);
+//			}
+//		});
+//		btnSearchPoint.setFont(new Font("Dialog", Font.PLAIN, 20));
+//		btnSearchPoint.setBounds(707, 402, 97, 50);
+//		Mainpanel.add(btnSearchPoint);
+		
 		LoginPanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/schedule2.png").getImage());
 		LoginPanel.setBounds(0, 0, 858, 575);
 		frame.getContentPane().add(LoginPanel);
@@ -336,10 +456,43 @@ public class StudentInfoManageMain {
 		btnSignUp.setFont(new Font("Dialog", Font.PLAIN, 24));
 		btnSignUp.setBounds(626, 207, 220, 34);
 		LoginPanel.add(btnSignUp);
+		
+		btnForgotPw = new DesignedButton("Sign Up");
+		btnForgotPw.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SearchMyPwInputId.showSearchMyPwInputId(frame);
+			}
+		});
+		btnForgotPw.setText("Forgot password?");
+		btnForgotPw.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnForgotPw.setBounds(626, 251, 220, 34);
+		LoginPanel.add(btnForgotPw);
+		
+		btnInfoHistory = new DesignedButton("학생 정보관리프로그램");
+		btnInfoHistory.setText("학생 정보관리프로그램V0.1");
+		btnInfoHistory.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnInfoHistory.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnInfoHistory.setBounds(616, 531, 230, 34);
+		LoginPanel.add(btnInfoHistory);
 		frame.setBounds(100, 100, 874, 614);
 		frame.setResizable(false); // 크기 조절 X
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+
+	private int guestCheck() {
+		if(loginNum == -1) {
+			JOptionPane.showMessageDialog(frame, "Guest는 사용할 수 없는 기능입니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+		}
+		return loginNum;
+	}
+
+	
 
 	private void saveNewStudentInfo() {
 		try {
@@ -348,7 +501,7 @@ public class StudentInfoManageMain {
 			String gender = cbGender.getSelectedItem().toString();
 			String phone = textPhone.getText();
 			String email = textEmail.getText();
-			String major = textMajor.getText();
+			String major = cbMajor.getSelectedItem().toString();
 			String majorNum = textStudentId.getText();
 			String avg = textAvgGradePoint.getText();
 			
