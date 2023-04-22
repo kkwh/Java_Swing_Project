@@ -83,7 +83,7 @@ public class SearchMyPwForInfo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		panel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/searchpwotherinfo.png").getImage());
+		panel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/searchpwotherinfo.png").getImage());
 		panel.setBounds(0, 0, 484, 362);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -162,16 +162,30 @@ public class SearchMyPwForInfo extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(textPhone.getText().equals(member.getPhone()) && textEmail.getText().equals(member.getEmail())) {
-					JOptionPane.showMessageDialog(SearchMyPwForInfo.this, String.format("해당 계정의 비밀번호는 %s입니다.", member.getPw()),
-												  "비밀번호 찾기 성공", JOptionPane.INFORMATION_MESSAGE);
-				} else JOptionPane.showMessageDialog(SearchMyPwForInfo.this, "입력하신 휴대전화 또는 이메일이 계정의 정보와 일치하지 않습니다.",
-						  						  "비밀번호 찾기 실패", JOptionPane.INFORMATION_MESSAGE);
+				checkMyInfoForPw();
 			}
 		});
 		btnSearch.setFont(new Font("Dialog", Font.BOLD, 28));
 		btnSearch.setBounds(38, 293, 422, 43);
 		panel.add(btnSearch);
+	}
+
+	private void checkMyInfoForPw() {
+		if (!textPhone.getText().matches("^010-\\d{4}-\\d{4}$")) {
+		    JOptionPane.showMessageDialog(SearchMyPwForInfo.this, "휴대전화 번호가 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    return;
+		}
+		else if (!textEmail.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+		    JOptionPane.showMessageDialog(SearchMyPwForInfo.this, "이메일이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    return;
+		}
+		
+		if(textPhone.getText().equals(member.getPhone()) && textEmail.getText().equals(member.getEmail())) {
+			JOptionPane.showMessageDialog(SearchMyPwForInfo.this, String.format("해당 계정의 비밀번호는 %s입니다.", member.getPw()),
+										  "비밀번호 찾기 성공", JOptionPane.INFORMATION_MESSAGE);
+		} else JOptionPane.showMessageDialog(SearchMyPwForInfo.this, "입력하신 휴대전화 또는 이메일이 계정의 정보와 일치하지 않습니다.",
+				  						  "비밀번호 찾기 실패", JOptionPane.INFORMATION_MESSAGE);
+		
 	}
 
 }

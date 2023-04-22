@@ -27,6 +27,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.Icon;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class StudentInfoList extends JFrame {
 
@@ -48,6 +50,7 @@ public class StudentInfoList extends JFrame {
 	private JButton btnSearch;
 	private JButton btnRefresh;
 	private int cid;
+	private JButton btnSortMode;
 
 	/**
 	 * Launch the application.
@@ -195,6 +198,7 @@ public class StudentInfoList extends JFrame {
 		btnInsert.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				if(guestCheck() == -1) return;
 				StudentInfoCreateFrame.showStudentInfoCreateFrame(parent, StudentInfoList.this);
 			}
@@ -206,6 +210,7 @@ public class StudentInfoList extends JFrame {
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				if(guestCheck() == -1) return;
 				updateStudentInfo();
 			}
@@ -217,6 +222,7 @@ public class StudentInfoList extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				if(guestCheck() == -1) return;
 				deleteStudentInfo();
 			}
@@ -228,6 +234,7 @@ public class StudentInfoList extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				searchStudentInfo();
 			}
 		});
@@ -243,6 +250,17 @@ public class StudentInfoList extends JFrame {
 		});
 		btnRefresh.setFont(new Font("Dialog", Font.BOLD, 18));
 		panelBtn.add(btnRefresh);
+		
+		btnSortMode = new DesignedButton("정렬 모드");
+		btnSortMode.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				InfoListSortMode.showInfoListSortMode(StudentInfoList.this, app, StudentInfoList.this ,cid);
+			}
+		});
+		btnSortMode.setFont(new Font("Dialog", Font.BOLD, 18));
+		panelBtn.add(btnSortMode);
 		StudentInfoList.this.setResizable(false); // 크기 조절 X
 		
 		

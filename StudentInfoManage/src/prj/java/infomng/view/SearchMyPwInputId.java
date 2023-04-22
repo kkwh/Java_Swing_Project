@@ -77,7 +77,7 @@ public class SearchMyPwInputId extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/searchpwinputid.png").getImage());
+		JPanel panel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/searchpwinputid.png").getImage());
 		panel.setBounds(0, 0, 484, 261);
 		contentPane.add(panel);
 		panel.setLayout(null);

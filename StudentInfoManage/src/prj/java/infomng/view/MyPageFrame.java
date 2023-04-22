@@ -120,7 +120,7 @@ public class MyPageFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/mypage.png").getImage());
+		JPanel panel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/mypage.png").getImage());
 		panel.setBounds(0, 0, 462, 528);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -157,7 +157,7 @@ public class MyPageFrame extends JFrame {
 		
 		lblNewLabel_7 = new JLabel("마이페이지");
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_7.setFont(new Font("Dialog", Font.PLAIN, 32));
+		lblNewLabel_7.setFont(new Font("Dialog", Font.BOLD, 32));
 		lblNewLabel_7.setBounds(106, 10, 239, 70);
 		panel.add(lblNewLabel_7);
 		
@@ -347,12 +347,16 @@ public class MyPageFrame extends JFrame {
 				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "해당 내용으로 수정하시겠습니까?", "수정 알림",
 															JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(confirm == JOptionPane.YES_OPTION) {
-					member.setBirth(textMyBirth.getText());
-					daoJoin.updateMyInfo(cid, member);
-					JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
-					textMyBirth.setEditable(false);
-					btnBirthComplete.setVisible(false);
-					btnBirthUpdate.setVisible(true);
+					if(textMyBirth.getText().matches("\\d{8}")) {
+						member.setBirth(textMyBirth.getText());
+						daoJoin.updateMyInfo(cid, member);
+						JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
+						textMyBirth.setEditable(false);
+						btnBirthComplete.setVisible(false);
+						btnBirthUpdate.setVisible(true);
+					} else JOptionPane.showMessageDialog(MyPageFrame.this, "생년월일이 올바른 양식이 아닙니다.",
+														"에러", JOptionPane.ERROR_MESSAGE);
+					
 				} else return;					
 			}
 		});
@@ -368,12 +372,15 @@ public class MyPageFrame extends JFrame {
 				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "해당 내용으로 수정하시겠습니까?", "수정 알림",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(confirm == JOptionPane.YES_OPTION) {
-					member.setPhone(textMyPhone.getText());
-					daoJoin.updateMyInfo(cid, member);
-					JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
-					textMyPhone.setEditable(false);
-					btnPhoneComplete.setVisible(false);
-					btnPhoneUpdate.setVisible(true);
+					if(textMyPhone.getText().matches("^010-\\d{4}-\\d{4}$")) {
+						member.setPhone(textMyPhone.getText());
+						daoJoin.updateMyInfo(cid, member);
+						JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
+						textMyPhone.setEditable(false);
+						btnPhoneComplete.setVisible(false);
+						btnPhoneUpdate.setVisible(true);
+					} else JOptionPane.showMessageDialog(MyPageFrame.this, "휴대전화 번호가 올바른 양식이 아닙니다.",
+														"에러", JOptionPane.ERROR_MESSAGE);					
 				} else return;					
 			}
 		});
@@ -388,41 +395,59 @@ public class MyPageFrame extends JFrame {
 				int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "해당 내용으로 수정하시겠습니까?", "수정 알림",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(confirm == JOptionPane.YES_OPTION) {
-					member.setEmail(textMyEmail.getText());
-					daoJoin.updateMyInfo(cid, member);
-					JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
-					textMyEmail.setEditable(false);
-					btnEmailComplete.setVisible(false);
-					btnEmailUpdate.setVisible(true);
+					if(textMyEmail.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+						member.setEmail(textMyEmail.getText());
+						daoJoin.updateMyInfo(cid, member);
+						JOptionPane.showMessageDialog(MyPageFrame.this, "수정이 완료되었습니다.");
+						textMyEmail.setEditable(false);
+						btnEmailComplete.setVisible(false);
+						btnEmailUpdate.setVisible(true);
+					} else JOptionPane.showMessageDialog(MyPageFrame.this, "이메일이 올바른 양식이 아닙니다.",
+							"에러", JOptionPane.ERROR_MESSAGE);						
 				} else return;				
 			}
 		});
 		btnEmailComplete.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnEmailComplete.setBounds(369, 400, 81, 43);
 		panel.add(btnEmailComplete);
+		
+		DesignedButton2 btnRefresh = new DesignedButton2("회원탈퇴");
+		btnRefresh.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showMyInfo();
+			}
+		});
+		btnRefresh.setText("새로고침");
+		btnRefresh.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnRefresh.setBounds(12, 464, 97, 43);
+		panel.add(btnRefresh);
 		MyPageFrame.this.setResizable(false); // 크기 조절 X
 		
 	}
 
 	private void withdrawMember() {
+		JPasswordField passwordFieldSub = new JPasswordField();
 		try {
 			int confirm = JOptionPane.showConfirmDialog(MyPageFrame.this, "정말로 계정을 탈퇴하시겠습니까?", "회원탈퇴",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(confirm == JOptionPane.YES_OPTION) {
-				String deletePw = JOptionPane.showInputDialog(MyPageFrame.this, "비밀번호를 입력해주세요.",
-						"회원탈퇴", JOptionPane.INFORMATION_MESSAGE);
-				if(deletePw.equals(daoJoin.haveMyInfo(cid).getPw())) {
-					daoJoin.withdrawMember(cid);
-					JOptionPane.showMessageDialog(MyPageFrame.this, "회원탈퇴가 완료되었습니다.", "회원탈퇴 완료", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
-					((Window) parent).dispose();
-					StudentInfoManageMain.main(null);
-				} else if(deletePw == null) {
-					return;
-				} else {
-					JOptionPane.showMessageDialog(MyPageFrame.this, "비밀번호가 일치하지 않습니다.", "회원탈퇴 실패", JOptionPane.INFORMATION_MESSAGE);
-					return;
+				int result = JOptionPane.showConfirmDialog(MyPageFrame.this, passwordFieldSub, "비밀번호를 입력해주세요.", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				if(result == JOptionPane.OK_OPTION) {
+					if(new String(passwordFieldSub.getPassword()).equals(daoJoin.haveMyInfo(cid).getPw())) {
+						daoJoin.withdrawMember(cid);
+						JOptionPane.showMessageDialog(MyPageFrame.this, "회원탈퇴가 완료되었습니다.", "회원탈퇴 완료", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						((Window) parent).dispose();
+						StudentInfoManageMain.main(null);
+					} else if(new String(passwordFieldSub.getPassword()) == null) {
+						return;
+					} else {
+						JOptionPane.showMessageDialog(MyPageFrame.this, "비밀번호가 일치하지 않습니다.", "회원탈퇴 실패", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
 				}
+				
 			}
 		} catch (NullPointerException e) {
 			return;

@@ -100,7 +100,7 @@ public class StudentInfoCreateFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Insertpanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/roundedLine.png").getImage());
+		Insertpanel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/roundedLine.png").getImage());
 		Insertpanel.setBackground(SystemColor.activeCaption);
 		Insertpanel.setBounds(0, 0, 858, 575);
 		contentPane.add(Insertpanel);
@@ -288,6 +288,9 @@ public class StudentInfoCreateFrame extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				boolean result = createPreCheckMyInfo();
+				if(!result) return;
+				
 				saveNewStudentInfo();
 			}
 		});
@@ -344,7 +347,36 @@ public class StudentInfoCreateFrame extends JFrame {
 		app.notifyStudentInfoCreate();
 		
 		dispose();
+				
+	}
+	
+	
+	private boolean createPreCheckMyInfo() {
+		boolean saveCheck = true;
+
+		// 정규식을 이용하여 전화번호 양식에 맞는지 검사합니다.
+		if (!textBirth.getText().matches("\\d{8}")) {
+			JOptionPane.showMessageDialog(this, "생년월일이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			saveCheck = false;
+		}
+		else if (!textPhone.getText().matches("^010-\\d{4}-\\d{4}$")) {
+		    JOptionPane.showMessageDialog(this, "연락처가 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    saveCheck = false;
+		}
+		else if (!textEmail.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+		    JOptionPane.showMessageDialog(this, "이메일이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    saveCheck = false;
+		}
+		else if (!textStudentId.getText().matches("\\d{10}")) {
+			JOptionPane.showMessageDialog(this, "학번이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			saveCheck = false;
+		}
+		else if (!textAvgGradePoint.getText().matches("\\d\\.\\d{1,2}")) {
+			JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			saveCheck = false;
+		}
 		
 		
+		return saveCheck;
 	}
 }

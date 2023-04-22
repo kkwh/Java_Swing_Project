@@ -9,10 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import prj.java.infomng.design.DesignedButton;
+import prj.java.infomng.design.DesignedButton4;
 import prj.java.infomng.design.ImagePanel;
 import prj.java.infomng.design.JTextFieldLimit;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -44,17 +46,18 @@ public class CalAvgGradePoint extends JFrame {
 	private JTextField textInput8;
 	private JButton btnAdd;
 	private int numCount = 1;
-	private DesignedButton btnConfirm;
+	private JButton btnCal;
+	private StudentInfoManageMain app;
 	
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void showCalAvgGradePoint(Component parent) {
+	public static void showCalAvgGradePoint(Component parent, StudentInfoManageMain app) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CalAvgGradePoint frame = new CalAvgGradePoint(parent);
+					CalAvgGradePoint frame = new CalAvgGradePoint(parent, app);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,8 +69,9 @@ public class CalAvgGradePoint extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CalAvgGradePoint(Component parent) {
+	public CalAvgGradePoint(Component parent, StudentInfoManageMain app) {
 		this.parent = parent;
+		this.app = app;
 		initialize();
 	}
 
@@ -81,14 +85,14 @@ public class CalAvgGradePoint extends JFrame {
             x = parent.getX();
             y = parent.getY();
         }
-		setBounds(x+570, y+100, 315, 525);
+		setBounds(x+827, y+66, 315, 525);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/calavggradepoint.png").getImage());
+		JPanel panel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/calavggradepoint.png").getImage());
 		panel.setBounds(0, 0, 299, 486);
 		contentPane.add(panel);
 		
@@ -230,6 +234,7 @@ public class CalAvgGradePoint extends JFrame {
 		panel.add(textInput8);
 		
 		btnAdd = new DesignedButton("추가");
+		btnAdd.setText("행 추가");
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -272,6 +277,7 @@ public class CalAvgGradePoint extends JFrame {
 				case 8 :
 					lblNum8.setVisible(true);
 					textInput8.setVisible(true);
+					numCount++;
 					break;
 				}
 			}   
@@ -280,16 +286,96 @@ public class CalAvgGradePoint extends JFrame {
 		btnAdd.setBounds(42, 10, 97, 35);
 		panel.add(btnAdd);
 		
-		btnConfirm = new DesignedButton("추가");
-		btnConfirm.setText("저장");
-		btnConfirm.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnConfirm.setBounds(42, 441, 97, 35);
-		panel.add(btnConfirm);
+		btnCal = new DesignedButton4("계산");
+		btnCal.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					boolean result = checkMyPoint();
+					if(!result) return;
+					
+					switch(numCount) {
+					case 2 :
+						app.setTextAvgGradePoint(textInput1.getText());
+						dispose();
+						break;
+					case 3 :
+						double val2 = Double.parseDouble(textInput1.getText()) + Double.parseDouble(textInput2.getText());
+						val2 /= numCount-1;
+						val2 = Math.round(val2 * 100) / 100.0;
+						app.setTextAvgGradePoint(String.valueOf(val2));
+						dispose();
+						break;
+					case 4 :
+						double val3 = Double.parseDouble(textInput1.getText()) + Double.parseDouble(textInput2.getText()) + 
+						Double.parseDouble(textInput3.getText());
+						val3 /= numCount-1;
+						val3 = Math.round(val3 * 100) / 100.0;
+						app.setTextAvgGradePoint(String.valueOf(val3));
+						dispose();
+						break;
+					case 5 :
+						double val4 = Double.parseDouble(textInput1.getText()) + Double.parseDouble(textInput2.getText()) + 
+						Double.parseDouble(textInput3.getText()) + Double.parseDouble(textInput4.getText());
+						val4 /= numCount-1;
+						val4 = Math.round(val4 * 100) / 100.0;
+						app.setTextAvgGradePoint(String.valueOf(val4));
+						dispose();
+						break;
+					case 6 :
+						double val5 = Double.parseDouble(textInput1.getText()) + Double.parseDouble(textInput2.getText()) + 
+						Double.parseDouble(textInput3.getText()) + Double.parseDouble(textInput4.getText()) +
+						Double.parseDouble(textInput5.getText());
+						val5 /= numCount-1;
+						val5 = Math.round(val5 * 100) / 100.0;
+						app.setTextAvgGradePoint(String.valueOf(val5));
+						dispose();
+						break;
+					case 7 :
+						double val6 = Double.parseDouble(textInput1.getText()) + Double.parseDouble(textInput2.getText()) + 
+						Double.parseDouble(textInput3.getText()) + Double.parseDouble(textInput4.getText()) +
+						Double.parseDouble(textInput5.getText()) + Double.parseDouble(textInput6.getText());
+						val6 /= numCount-1;
+						val6 = Math.round(val6 * 100) / 100.0;
+						app.setTextAvgGradePoint(String.valueOf(val6));
+						dispose();
+						break;
+					case 8 :
+						double val7 = Double.parseDouble(textInput1.getText()) + Double.parseDouble(textInput2.getText()) + 
+						Double.parseDouble(textInput3.getText()) + Double.parseDouble(textInput4.getText()) +
+						Double.parseDouble(textInput5.getText()) + Double.parseDouble(textInput6.getText()) +
+						Double.parseDouble(textInput7.getText());
+						val7 /= numCount-1;
+						val7 = Math.round(val7 * 100) / 100.0;
+						app.setTextAvgGradePoint(String.valueOf(val7));
+						dispose();
+						break;
+					case 9 :
+						double val8 = Double.parseDouble(textInput1.getText()) + Double.parseDouble(textInput2.getText()) + 
+						Double.parseDouble(textInput3.getText()) + Double.parseDouble(textInput4.getText()) +
+						Double.parseDouble(textInput5.getText()) + Double.parseDouble(textInput6.getText()) +
+						Double.parseDouble(textInput7.getText()) + Double.parseDouble(textInput8.getText());
+						val8 /= numCount-1;
+						val8 = Math.round(val8 * 100) / 100.0;
+						app.setTextAvgGradePoint(String.valueOf(val8));
+						dispose();
+						break;
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(CalAvgGradePoint.this, "양식을 다시 확인해주세요.", "경고", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnCal.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnCal.setBounds(42, 441, 97, 35);
+		panel.add(btnCal);
 		
 		DesignedButton btnClose = new DesignedButton("추가");
 		btnClose.setText("닫기");
 		btnClose.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
 		btnClose.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -297,45 +383,51 @@ public class CalAvgGradePoint extends JFrame {
 		panel.add(btnClose);
 		
 		DesignedButton btnDelete = new DesignedButton("제거");
+		btnDelete.setText("행 제거");
 		btnDelete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switch(numCount) {
-				case 1 :
+//				case 1 :
+//					lblNum1.setVisible(false);
+//					textInput1.setVisible(false);
+//					break;
+				case 2 :
 					lblNum1.setVisible(false);
 					textInput1.setVisible(false);
+					numCount--;
 					break;
-				case 2 :
+				case 3 :
 					lblNum2.setVisible(false);
 					textInput2.setVisible(false);
 					numCount--;
 					break;
-				case 3 :
+				case 4 :
 					lblNum3.setVisible(false);
 					textInput3.setVisible(false);
 					numCount--;
 					break;
-				case 4 :
+				case 5 :
 					lblNum4.setVisible(false);
 					textInput4.setVisible(false);
 					numCount--;
 					break;
-				case 5 :
+				case 6 :
 					lblNum5.setVisible(false);
 					textInput5.setVisible(false);
 					numCount--;
 					break;
-				case 6 :
+				case 7 :
 					lblNum6.setVisible(false);
 					textInput6.setVisible(false);
 					numCount--;
 					break;
-				case 7 :
+				case 8 :
 					lblNum7.setVisible(false);
 					textInput7.setVisible(false);
 					numCount--;
 					break;
-				case 8 :
+				case 9 :
 					lblNum8.setVisible(false);
 					textInput8.setVisible(false);
 					numCount--;
@@ -347,6 +439,62 @@ public class CalAvgGradePoint extends JFrame {
 		btnDelete.setBounds(175, 10, 97, 35);
 		panel.add(btnDelete);
 		CalAvgGradePoint.this.setResizable(false);
-		
 	}
+		
+		private boolean checkMyPoint() {
+			boolean check = true;
+			
+			switch(numCount) {
+			case 2 :
+				if (!textInput1.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			case 3 :
+				if (!textInput2.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			case 4 :
+				if (!textInput3.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			case 5 :
+				if (!textInput4.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			case 6 :
+				if (!textInput5.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			case 7 :
+				if (!textInput6.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			case 8 :
+				if (!textInput7.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			case 9 :
+				if (!textInput8.getText().matches("\\d\\.\\d{1,2}")) {
+					JOptionPane.showMessageDialog(this, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+					check = false;
+				}
+				break;
+			}		
+
+			return check;
+		}
 }

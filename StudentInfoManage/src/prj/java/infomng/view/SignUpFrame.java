@@ -100,7 +100,7 @@ public class SignUpFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		panel =  new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/signupbg2.png").getImage());
+		panel =  new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/signupbg2.png").getImage());
 		panel.setBackground(SystemColor.inactiveCaptionBorder);
 		panel.setBounds(0, 0, 468, 536);
 		contentPane.add(panel);
@@ -311,6 +311,8 @@ public class SignUpFrame extends JFrame {
 		btnJoin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				boolean result = signUpPreCheckMyInfo();
+				if(!result) return;
 				signUp();
 			
 		}
@@ -337,11 +339,11 @@ public class SignUpFrame extends JFrame {
 	private void signUp() {
 		try {
 			
-			if(!(new String(pwField.getPassword()).equals(new String(pwCheckField.getPassword())))) {
-				JOptionPane.showMessageDialog(SignUpFrame.this, "비밀번호가 일치하지 않습니다.", "알림", JOptionPane.ERROR_MESSAGE);
-				lblPwFalse.setVisible(true);
-				return;
-			}
+//			if(!(new String(pwField.getPassword()).equals(new String(pwCheckField.getPassword())))) {
+//				JOptionPane.showMessageDialog(SignUpFrame.this, "비밀번호가 일치하지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
+//				lblPwFalse.setVisible(true);
+//				return;
+//			}
 			
 			String name = textName.getText();
 			String id = textId.getText();
@@ -356,11 +358,36 @@ public class SignUpFrame extends JFrame {
 				JOptionPane.showMessageDialog(SignUpFrame.this, "회원가입이 완료되었습니다.");
 				dispose();
 				
-			} else JOptionPane.showMessageDialog(SignUpFrame.this, "양식에 맞게 다시 입력해주세요.", "알림", JOptionPane.ERROR_MESSAGE);
+			} else JOptionPane.showMessageDialog(SignUpFrame.this, "양식에 맞게 다시 입력해주세요.", "에러", JOptionPane.ERROR_MESSAGE);
 						
 		}   catch (Exception e) {
-			JOptionPane.showMessageDialog(SignUpFrame.this, "양식에 맞게 다시 입력해주세요.", "알림", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(SignUpFrame.this, "양식에 맞게 다시 입력해주세요.", "에러", JOptionPane.ERROR_MESSAGE);
 		}
 		
+	}
+	
+	private boolean signUpPreCheckMyInfo() {
+		boolean signCheck = true;
+		
+		if(!(new String(pwField.getPassword()).equals(new String(pwCheckField.getPassword())))) {
+			JOptionPane.showMessageDialog(SignUpFrame.this, "비밀번호가 일치하지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			lblPwFalse.setVisible(true);
+			signCheck = false;		
+		}
+		// 정규식을 이용하여 전화번호 양식에 맞는지 검사합니다.
+		else if (!textBirth.getText().matches("\\d{8}")) {
+		    JOptionPane.showMessageDialog(SignUpFrame.this, "생년월일이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    signCheck = false;
+		}
+		else if (!textPhone.getText().matches("^010-\\d{4}-\\d{4}$")) {
+		    JOptionPane.showMessageDialog(SignUpFrame.this, "휴대전화 번호가 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    signCheck = false;
+		}
+		else if (!textEmail.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+		    JOptionPane.showMessageDialog(SignUpFrame.this, "이메일이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    signCheck = false;
+		}
+		
+		return signCheck;
 	}
 }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -72,7 +73,7 @@ public class StudentInfoManageMain {
 	private JButton btnInfoHistory;
 	private JComboBox cbMajor;
 	private JButton btnDirectlyInput;
-	private DesignedButton6 btnSearchPoint;
+	private JButton btnSearchPoint;
 	/**
 	 * Launch the application.
 	 */
@@ -106,7 +107,7 @@ public class StudentInfoManageMain {
 		
 		System.out.println();
 		
-		Mainpanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/roundedLine.png").getImage());
+		Mainpanel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/roundedLine.png").getImage());
 		Mainpanel.setBackground(SystemColor.activeCaption);
 		Mainpanel.setForeground(new Color(255, 255, 255));
 		Mainpanel.setBounds(0, 0, 858, 575);
@@ -264,6 +265,7 @@ public class StudentInfoManageMain {
 		Mainpanel.add(textStudentId);
 		
 		textAvgGradePoint = new JTextField();
+		textAvgGradePoint.setEditable(false);
 		textAvgGradePoint.setText("양식) 4.50");
 		textAvgGradePoint.setFont(new Font("Dialog", Font.PLAIN, 20));
 		textAvgGradePoint.setColumns(10);
@@ -300,9 +302,12 @@ public class StudentInfoManageMain {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(guestCheck() == -1) return;
+				
+				boolean result = savePreCheckMyInfo();
+				if(!result) return;
+				
 				saveNewStudentInfo();
-				
-				
+								
 			}
 		});
 		btnSave.setBounds(323, 485, 97, 50);
@@ -359,29 +364,29 @@ public class StudentInfoManageMain {
 		cbMajor.setEditable(false);
 		Mainpanel.add(cbMajor);
 		
-//		btnDirectlyInput = new DesignedButton6("직접입력");
-//		btnDirectlyInput.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				textAvgGradePoint.setEditable(true);
-//			}
-//		});
-//		btnDirectlyInput.setFont(new Font("Dialog", Font.PLAIN, 18));
-//		btnDirectlyInput.setBounds(600, 400, 97, 50);
-//		Mainpanel.add(btnDirectlyInput);
+		btnDirectlyInput = new DesignedButton4("직접입력");
+		btnDirectlyInput.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textAvgGradePoint.setEditable(true);
+			}
+		});
+		btnDirectlyInput.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnDirectlyInput.setBounds(600, 400, 97, 50);
+		Mainpanel.add(btnDirectlyInput);
 		
-//		btnSearchPoint = new DesignedButton6("찾기");
-//		btnSearchPoint.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				CalAvgGradePoint.showCalAvgGradePoint(frame);
-//			}
-//		});
-//		btnSearchPoint.setFont(new Font("Dialog", Font.PLAIN, 20));
-//		btnSearchPoint.setBounds(707, 402, 97, 50);
-//		Mainpanel.add(btnSearchPoint);
+		btnSearchPoint = new DesignedButton4("학점계산기");
+		btnSearchPoint.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CalAvgGradePoint.showCalAvgGradePoint(frame, StudentInfoManageMain.this);
+			}
+		});
+		btnSearchPoint.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnSearchPoint.setBounds(707, 400, 97, 50);
+		Mainpanel.add(btnSearchPoint);
 		
-		LoginPanel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/schedule2.png").getImage());
+		LoginPanel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/schedule2.png").getImage());
 		LoginPanel.setBounds(0, 0, 858, 575);
 		frame.getContentPane().add(LoginPanel);
 		LoginPanel.setLayout(null);
@@ -511,11 +516,42 @@ public class StudentInfoManageMain {
 						
 			JOptionPane.showMessageDialog(frame, "저장되었습니다.");
 			
-		}   catch (Exception e) {
+		}   catch (Exception e) {			
 			JOptionPane.showMessageDialog(frame, "양식에 맞게 다시 입력해주세요.", "알림", JOptionPane.ERROR_MESSAGE);
+		}				
+	}
+	
+	private boolean savePreCheckMyInfo() {
+		boolean saveCheck = true;
+
+		// 정규식을 이용하여 전화번호 양식에 맞는지 검사합니다.
+		if (!textBirth.getText().matches("\\d{8}")) {
+			JOptionPane.showMessageDialog(frame, "생년월일이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			saveCheck = false;
+		}
+		else if (!textPhone.getText().matches("^010-\\d{4}-\\d{4}$")) {
+		    JOptionPane.showMessageDialog(frame, "연락처가 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    saveCheck = false;
+		}
+		else if (!textEmail.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+		    JOptionPane.showMessageDialog(frame, "이메일이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    saveCheck = false;
+		}
+		else if (!textStudentId.getText().matches("\\d{10}")) {
+			JOptionPane.showMessageDialog(frame, "학번이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			saveCheck = false;
+		}
+		else if (!textAvgGradePoint.getText().matches("\\d\\.\\d{1,2}")) {
+			JOptionPane.showMessageDialog(frame, "평균학점이 올바른 양식이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			saveCheck = false;
 		}
 		
 		
+		return saveCheck;
+	}
+	
+	public void setTextAvgGradePoint(String point) {
+		this.textAvgGradePoint.setText(point);
 	}
 }
 

@@ -98,7 +98,7 @@ public class UpdateMyPw extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		panel = new ImagePanel(new ImageIcon("C:/Users/ITWILL/git/Java_Swing_Project/StudentInfoManage/images/updateinfo.png").getImage());
+		panel = new ImagePanel(new ImageIcon("C:/Users/82104/git/Java_Swing_Project2/StudentInfoManage/images/updateinfo.png").getImage());
 		panel.setBounds(0, 0, 314, 525);
 		contentPane.add(panel);
 		panel.setLayout(null);
